@@ -16,7 +16,7 @@ export default async function Navbar() {
     const session = await auth()
     return (
         <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
-            <div className="container mx-auto flex items-center justify-between">
+            <div className=" mx-auto flex items-center justify-between">
                 <Link href="#" className="flex items-center gap-2" prefetch={false}>
                     {/* <MountainIcon className="h-6 w-6" /> */}
 

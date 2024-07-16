@@ -9,7 +9,7 @@ export function SignIn() {
                 await signIn("google")
             }}
         >
-            <Button size="sm" type="submit">Signin with Google</Button>
+            <Button size="sm" type="submit">Signin</Button>
         </form>
     )
 } 
