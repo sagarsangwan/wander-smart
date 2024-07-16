@@ -1,6 +1,6 @@
 // "use client"
 import { ModeToggle } from "../mode-toggle"
-import { MenuIcon } from "lucide-react"
+import { MenuIcon, User } from "lucide-react"
 
 
 
@@ -8,8 +8,12 @@ import Link from "next/link"
 import { Toggle } from "@/components/ui/toggle"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
+import { auth } from "@/lib/auth"
+import { SignIn } from "../auth/signin-button"
+import UserAvatar from "../user-avatar"
 
-export default function Navbar() {
+export default async function Navbar() {
+    const session = await auth()
     return (
         <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
             <div className="container mx-auto flex items-center justify-between">
@@ -37,6 +41,7 @@ export default function Navbar() {
                 </nav>
                 <div className="flex items-center gap-4">
                     <ModeToggle />
+                    {!session ? <SignIn /> : <UserAvatar />}
 
                     <Sheet>
                         <SheetTrigger asChild>

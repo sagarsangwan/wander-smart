@@ -1,6 +1,6 @@
 
-import { signIn } from "@/auth"
-
+import { signIn } from "@/lib/auth"
+import { Button } from "../ui/button"
 export function SignIn() {
     return (
         <form
@@ -9,7 +9,7 @@ export function SignIn() {
                 await signIn("google")
             }}
         >
-            <button type="submit">Signin with Google</button>
+            <Button size="sm" type="submit">Signin with Google</Button>
         </form>
     )
 } 
