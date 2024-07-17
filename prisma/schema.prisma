@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String          @id @default(cuid())
+  name           String?
+  email          String          @unique
+  emailVerified  DateTime?
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
+  itineraryplans ItineraryPlan[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 }
 
 model Account {
@@ -58,3 +58,46 @@ model VerificationToken {
 
   @@id([identifier, token])
 }
+
+enum InterestAndActivity {
+  SIGHTSEEING
+  ADVENTURE
+  NATURE_AND_WILDLIFE
+  CULTURAL_EXPERIENCES
+  RELAXATION
+  WATER_ACTIVITIES
+  SHOPPING_AND_ENTERTAINMENT
+  FOOD_AND_DRINK
+  SPORTS_AND_FITNESS
+  PHOTOGRAPHY
+}
+
+model ItineraryPlan {
+  id                String                @id @default(cuid())
+  destination       String
+  startDate         DateTime
+  endDate           DateTime
+  numberOfTravelers Int
+  includesChildren  Boolean
+  includesElderly   Boolean
+  accommodation     String
+  interests         InterestAndActivity[]
+  activities        String
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  userId            String
+  user              User                  @relation(fields: [userId], references: [id])
+
+  @@map("itinerary_plans")
+}
+
+// model Activity {
+//   id               String                 @id @default(cuid())
+//   name             String
+//   type             InterestAndActivity
+//   description      String?
+//   itineraryPlanId  Int
+//   itineraryPlan    ItineraryPlan       @relation(fields: [itineraryPlanId], references: [id])
+
+//   @@map("activities")
+// }

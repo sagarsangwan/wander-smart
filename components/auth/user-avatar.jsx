@@ -11,7 +11,6 @@ import {
 
 async function UserAvatar() {
     const session = await auth()
-    console.log(session.user.image)
     return (
         <div>
 

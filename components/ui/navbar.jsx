@@ -10,21 +10,21 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { auth } from "@/lib/auth"
 import { SignIn } from "../auth/signin-button"
-import UserAvatar from "../user-avatar"
+import UserAvatar from "../auth/user-avatar"
 
 export default async function Navbar() {
     const session = await auth()
     return (
         <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
             <div className=" mx-auto flex items-center justify-between">
-                <Link href="#" className="flex items-center gap-2" prefetch={false}>
+                <Link href="/" className="flex items-center gap-2" prefetch={false}>
                     {/* <MountainIcon className="h-6 w-6" /> */}
 
                     <span className="text-lg font-semibold">wander Smart</span>
                 </Link>
                 <nav className="hidden items-center gap-6 md:flex">
                     <Link
-                        href="#"
+                        href="/"
                         className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                         prefetch={false}
                     >
@@ -53,7 +53,7 @@ export default async function Navbar() {
                         <SheetContent side="right" className="w-[300px]">
                             <div className="flex flex-col gap-4 p-4">
                                 <Link
-                                    href="#"
+                                    href="/"
                                     className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                                     prefetch={false}
                                 >
