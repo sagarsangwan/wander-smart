@@ -1,9 +1,11 @@
 "use client"
-import { z } from "zod"
+import { date, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
-import { es } from "date-fns/locale";
+
+import { enUS } from "date-fns/locale";
+
 import {
     Form,
     FormControl,
@@ -99,10 +101,10 @@ function TripForm() {
                                     <Calendar
                                         initialFocus
                                         mode="range"
-                                        locale={es}
-                                        // disabled={
-                                        // new DateTime()>new DateTi
-                                        // }/
+                                        locale={enUS}
+                                        disabled={
+                                            { before: new Date() }
+                                        }
                                         defaultMonth={field.value?.from}
                                         selected={field.value}
                                         onSelect={(range) => field.onChange(range)}
@@ -111,9 +113,9 @@ function TripForm() {
                                     />
                                 </PopoverContent>
                             </Popover>
-                            <FormDescription>
-                                Your Travel Dates   is used to calculate your age.
-                            </FormDescription>
+                            {/* <FormDescription>
+                                Your Travel Dat.
+                            </FormDescription> */}
                             <FormMessage />
                         </FormItem>
                     )}

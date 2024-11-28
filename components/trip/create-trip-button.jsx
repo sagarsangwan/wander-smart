@@ -1,3 +1,5 @@
+
+"use client"
 import {
     Dialog,
     DialogContent,
@@ -13,8 +15,8 @@ function CreateTripButton() {
     return (
         <div className="">
             <Dialog>
-                <DialogTrigger>
-                    <Button className="bg-primary flex justify-center group/modal-btn">
+                <DialogTrigger asChild>
+                    <Button className="bg-primary flex justify-center group/modal-btn"  >
                         Book Your Trip
                     </Button>
                 </DialogTrigger>
