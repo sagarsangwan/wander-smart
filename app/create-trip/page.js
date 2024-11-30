@@ -84,7 +84,7 @@ function Page() {
                             <FormItem>
                                 <FormLabel>Username</FormLabel>
                                 <FormControl> */}
-            <Input placeholder="shadcn" value={query} onChange={handleInputChange} />
+            <Input placeholder="search your place" value={query} onChange={handleInputChange} />
             {apiError.length > 0 && (
                 <span>{apiError}</span>
             )}
