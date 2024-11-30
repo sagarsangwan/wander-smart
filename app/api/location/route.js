@@ -26,7 +26,7 @@ export async function POST(request) {
     } catch (error) {
         console.error("Error fetching autocomplete data:", error);
         return new Response(
-            JSON.stringify({ error: "Failed to fetch autocomplete data" }),
+            JSON.stringify({ error: "ERR_BAD_REQUEST" }),
             { status: 500 }
         );
     }

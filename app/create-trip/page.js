@@ -1,22 +1,11 @@
 "use client"
 import { useState, useRef } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
 import React from 'react'
 
 import { Input } from "@/components/ui/input"
+// import { Span } from "next/dist/trace"
 
 
 const FormSchema = z.object({
@@ -28,6 +17,7 @@ function Page() {
     const [query, setQuery] = useState("")
     const [suggestions, setSuggestions] = useState([])
     const [selectedPlace, setSelectedPlace] = useState("")
+    const [apiError, setApiError] = useState("")
     const debounceTimeout = useRef(null);
 
     const fetchSuggestions = async (input) => {
@@ -46,10 +36,12 @@ function Page() {
                 const data = await response.json()
                 console.log(data, "dataaaaaaaaaaa")
                 if (response.ok) {
+                    setApiError("")
                     setSuggestions(data)
                 }
                 else {
                     console.error("Error fetching suggestions:", data.error);
+                    setApiError(data.error)
                     setSuggestions([])
                 }
             }
@@ -58,8 +50,8 @@ function Page() {
                 setSuggestions([]);
             }
         } else {
-            console.log("badi nhi hai")
             setSuggestions([])
+            setApiError("search atleast three word")
         }
     }
     const handleInputChange = (e) => {
@@ -79,26 +71,8 @@ function Page() {
         setQuery(place.display_name)
         setSuggestions([])
     }
-    const form = useForm({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            username: "",
-        },
-    })
-    async function onSubmit(data) {
-        console.log(data)
-        const response = await fetch("/api/location", {
 
-            method: "POST",
-            body: JSON.stringify({
-                q: data.username, // Replace "London" with the actual query input value
-            }),
 
-        })
-        const result = await response.json()
-        console.log(result)
-        return
-    }
     return (
         <div>
             {/* <Form {...form}>
@@ -111,6 +85,9 @@ function Page() {
                                 <FormLabel>Username</FormLabel>
                                 <FormControl> */}
             <Input placeholder="shadcn" value={query} onChange={handleInputChange} />
+            {apiError.length > 0 && (
+                <span>{apiError}</span>
+            )}
             {suggestions.length > 0 && (
                 <ul>
                     {suggestions.map((place) => (
