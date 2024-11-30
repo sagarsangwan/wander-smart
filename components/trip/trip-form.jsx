@@ -107,10 +107,31 @@ function TripForm() {
                                         }
                                         defaultMonth={field.value?.from}
                                         selected={field.value}
-                                        onSelect={(range) => field.onChange(range)}
-
+                                        // onSelect={(range) => field.onChange(range)}
+                                        onSelect={(range) => {
+                                            if (range && range.from && range.to) {
+                                                field.onChange(range); // Valid range selected
+                                            } else if (range?.from) {
+                                                field.onChange({ from: range.from, to: null }); // Single date selected (start of range)
+                                            }
+                                        }}
                                         numberOfMonths={2}
                                     />
+                                    <Button
+                                        variant="outline"
+                                        onClick={closecalander()} // Close the calendar
+                                        style={{
+                                            position: "absolute",
+                                            top: 10,
+                                            right: 10,
+                                            padding: "5px 10px",
+                                            fontSize: "12px",
+                                            borderRadius: "50%",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Close
+                                    </Button>
                                 </PopoverContent>
                             </Popover>
                             {/* <FormDescription>
@@ -127,7 +148,8 @@ function TripForm() {
                         <FormItem>
                             <FormLabel>Destination</FormLabel>
                             <FormControl>
-                                <Input placeholder="shadcn" {...field} />
+                                <Input placeholder="shadcn" {...field} value={query}
+                                    onChange={handleInputChange} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

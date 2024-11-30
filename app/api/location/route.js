@@ -15,6 +15,7 @@ export async function POST(request) {
                     key: process.env.LOCATIONIQ_API_KEY, // Secure token
                     q,
                     limit: 5,
+                    // countrycodes: 
                 }
             }
         )
