@@ -8,16 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { StepOne, StepThree, StepTwo } from "@/components/trip/trip-input-steps"
 
 const stepSchemas = [
@@ -97,6 +87,7 @@ function Page() {
     }
     const handleInputChange = (e) => {
         const userInput = e.target.value
+        methods.setValue("destination", "")
         setQuery(userInput)
         if (debounceTimeout.current) {
             clearTimeout(debounceTimeout.current)
