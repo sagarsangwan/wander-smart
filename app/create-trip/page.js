@@ -61,12 +61,9 @@ function Page() {
     const debounceTimeout = useRef(null);
 
     const fetchSuggestions = async (input) => {
-        console.log("inside fetchsuhggestionsssssssssssss ")
-        console.log(input.length)
 
         if (input.length > 2) {
             try {
-                console.log("inside fetchsuhggestionsssssssssssss tryy")
                 const response = await fetch("/api/location",
                     {
                         method: "POST",
@@ -74,19 +71,17 @@ function Page() {
                     }
                 )
                 const data = await response.json()
-                console.log(data, "dataaaaaaaaaaa")
                 if (response.ok) {
                     setApiError("")
                     setSuggestions(data)
                 }
                 else {
-                    console.error("Error fetching suggestions:", data.error);
                     setApiError(data.error)
                     setSuggestions([])
                 }
             }
             catch (error) {
-                console.error("Error fetching suggestions:", error);
+                // console.error("Error fetching suggestions:", error);
                 setSuggestions([]);
             }
         } else {
@@ -97,12 +92,11 @@ function Page() {
     const handleInputChange = (e) => {
         const userInput = e.target.value
         setQuery(userInput)
-        console.log("hihihih", userInput)
         if (debounceTimeout.current) {
             clearTimeout(debounceTimeout.current)
         }
         debounceTimeout.current = setTimeout(() => {
-            console.log("before timeouut")
+
             fetchSuggestions(userInput);
         }, 300);
     }
