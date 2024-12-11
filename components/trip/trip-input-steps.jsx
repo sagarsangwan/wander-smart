@@ -69,7 +69,7 @@ export const StepTwo = () => (
                 <FormItem>
                     <label>Start Date</label>
                     <FormControl>
-                        <Input type="date" {...field} />
+                        <Input type="date" {...field} min={new Date().toISOString().split("T")[0]} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -81,7 +81,7 @@ export const StepTwo = () => (
                 <FormItem>
                     <label>End Date</label>
                     <FormControl>
-                        <Input type="date" {...field} />
+                        <Input type="date" {...field} min={new Date().toISOString().split("T")[0]} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
