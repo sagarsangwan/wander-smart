@@ -1,9 +1,11 @@
 "use client"
 import { useState, useRef } from "react"
 import { z } from "zod"
+import { Progress } from "@/components/ui/progress"
+
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,23 +18,45 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
 
-
-const FormSchema = z.object({
-    destination: z.string().min(2, {
-        message: "destination must be at least 2 characters.",
+const stepSchemas = [
+    z.object({ destination: z.string().min(1, "Destination is required") }),
+    z.object({
+        startDate: z.string().min(1, "Start date is required"),
+        endDate: z.string().min(1, "End date is required"),
     }),
-})
+    // z.object({ groupSize: z.number().min(1, "Group size must be at least 1") }),
+];
+
 function Page() {
-    const form = useForm({
-        resolver: zodResolver(FormSchema),
+    const [step, setStep] = useState(0)
+    const totalSteps = stepSchemas.length
+    const methods = useForm({
+        resolver: zodResolver(stepSchemas[step]),
         defaultValues: {
             destination: "",
-        },
+            startDate: "",
+            endDate: "",
+            groupSize: 1
+        }
     })
+    const handleNext = (data) => {
+        if (step < totalSteps - 1) {
+            setStep(step + 1)
+            console.log(data)
+        } else {
+            console.log("form submitted", data)
+        }
+    }
+    const handleBack = () => {
+        if (step > 0) {
+            setStep(step - 1)
+        }
+    }
+
     const [query, setQuery] = useState("")
     const [suggestions, setSuggestions] = useState([])
-    const [selectedPlace, setSelectedPlace] = useState("")
     const [apiError, setApiError] = useState("")
     const debounceTimeout = useRef(null);
 
@@ -83,50 +107,27 @@ function Page() {
         }, 300);
     }
     const handleSuggestionClick = (place) => {
-        setSelectedPlace(place.display_name)
         setQuery(place.display_name)
-        form.setValue("destination", place.display_name)
+        methods.setValue("destination", place.display_name)
         setSuggestions([])
-    }
-    function onSubmit(values) {
-        console.log(values)
     }
 
 
     return (
         <div>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-                    <FormField
-                        control={form.control}
-                        name="destination"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>destination</FormLabel>
-                                <FormControl>
-                                    <div>
-                                        <Input placeholder="search your place" {...field} value={query} onChange={handleInputChange} />
-                                        {apiError.length > 0 && (
-                                            <span>{apiError}</span>
-                                        )}
-                                        {suggestions.length > 0 && (
-                                            <ul>
-                                                {suggestions.map((place) => (
-
-                                                    <li key={place.place_id} onClick={() => handleSuggestionClick(place)}>{place.display_name}</li>
-                                                ))}
-                                            </ul>
-                                        )}
-
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <Button type="submit">Submit</Button>
-                </form>
-            </Form>
+            <FormProvider {...methods}>
+                <div className="max-w-md mx-auto p-4">
+                    <Progress value={((step + 1) / totalSteps * 100)} />
+                    <form onSubmit={methods.handleSubmit(handleNext)} >
+                        {step === 0 && <StepOne suggestions={suggestions} apiError={apiError} query={query} handleInputChange={handleInputChange} handleSuggestionClick={handleSuggestionClick} />}
+                        {step === 1 && <StepTwo />}
+                        <div className="flex justify-between">
+                            <Button onClick={handleBack} disabled={step === 0}>back</Button>
+                            <Button type="submit">{(step < totalSteps - 1) ? "next" : "submit"}</Button>
+                        </div>
+                    </form>
+                </div>
+            </FormProvider>
         </div>
     )
 }

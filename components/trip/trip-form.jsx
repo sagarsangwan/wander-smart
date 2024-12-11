@@ -55,10 +55,7 @@ function TripForm() {
         },
     })
 
-    // 2. Define a submit handler.
     function onSubmit(values) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         console.log(values)
     }
     return (
