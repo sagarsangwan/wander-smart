@@ -68,7 +68,7 @@ export const StepTwo = () => (
             name="startDate"
             render={({ field }) => (
                 <FormItem className="flex flex-col">
-                    <FormLabel>Date of birth</FormLabel>
+                    <FormLabel>Trip Start Date</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild>
                             <FormControl>
@@ -110,7 +110,7 @@ export const StepTwo = () => (
             name="endDate"
             render={({ field }) => (
                 <FormItem className="flex flex-col">
-                    <FormLabel>Date of birth</FormLabel>
+                    <FormLabel>Trip End Date</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild>
                             <FormControl>

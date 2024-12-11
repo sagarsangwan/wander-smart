@@ -13,8 +13,8 @@ import { StepOne, StepThree, StepTwo } from "@/components/trip/trip-input-steps"
 const stepSchemas = [
     z.object({ destination: z.string().min(1, "Destination is required") }),
     z.object({
-        startDate: z.string().min(1, "Start date is required"),
-        endDate: z.string().min(1, "End date is required"),
+        startDate: z.date("Start date is required"),
+        endDate: z.date("End date is required"),
     }),
     z.object({ groupSize: z.number().min(1, "Group size must be at least 1") }),
 ];
@@ -27,8 +27,8 @@ function Page() {
         resolver: zodResolver(fullSchemas),
         defaultValues: {
             destination: "",
-            startDate: "",
-            endDate: "",
+            startDate: undefined,
+            endDate: undefined,
             groupSize: 1
         }
     })
