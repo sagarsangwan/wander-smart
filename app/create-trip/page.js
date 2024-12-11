@@ -18,7 +18,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
+import { StepOne, StepThree, StepTwo } from "@/components/trip/trip-input-steps"
 
 const stepSchemas = [
     z.object({ destination: z.string().min(1, "Destination is required") }),
@@ -26,14 +26,15 @@ const stepSchemas = [
         startDate: z.string().min(1, "Start date is required"),
         endDate: z.string().min(1, "End date is required"),
     }),
-    // z.object({ groupSize: z.number().min(1, "Group size must be at least 1") }),
+    z.object({ groupSize: z.number().min(1, "Group size must be at least 1") }),
 ];
+const fullSchemas = stepSchemas.reduce((acc, schema) => acc.merge(schema), z.object({}))
 
 function Page() {
     const [step, setStep] = useState(0)
     const totalSteps = stepSchemas.length
     const methods = useForm({
-        resolver: zodResolver(stepSchemas[step]),
+        resolver: zodResolver(fullSchemas),
         defaultValues: {
             destination: "",
             startDate: "",
@@ -41,13 +42,18 @@ function Page() {
             groupSize: 1
         }
     })
-    const handleNext = (data) => {
-        if (step < totalSteps - 1) {
+    const handleNext = () => {
+        const currentSchemas = stepSchemas[step]
+        const currentStepData = methods.getValues()
+        const currentvalidation = currentSchemas.safeParse(currentStepData)
+        if (currentvalidation.success) {
             setStep(step + 1)
-            console.log(data)
         } else {
-            console.log("form submitted", data)
+            console.log("error")
         }
+    }
+    const onSubmit = (data) => {
+        console.log(data)
     }
     const handleBack = () => {
         if (step > 0) {
@@ -110,14 +116,16 @@ function Page() {
     return (
         <div>
             <FormProvider {...methods}>
-                <div className="max-w-md mx-auto p-4">
-                    <Progress value={((step + 1) / totalSteps * 100)} />
-                    <form onSubmit={methods.handleSubmit(handleNext)} >
+                <div className=" max-w-md mx-auto p-4 ">
+                    <Progress className="my-4" value={((step + 1) / totalSteps * 100)} />
+                    <form onSubmit={methods.handleSubmit(onSubmit)} className="my-10" >
                         {step === 0 && <StepOne suggestions={suggestions} apiError={apiError} query={query} handleInputChange={handleInputChange} handleSuggestionClick={handleSuggestionClick} />}
                         {step === 1 && <StepTwo />}
-                        <div className="flex justify-between">
+                        {step === 2 && <StepThree />}
+                        <div className="flex justify-between mt-6">
                             <Button onClick={handleBack} disabled={step === 0}>back</Button>
-                            <Button type="submit">{(step < totalSteps - 1) ? "next" : "submit"}</Button>
+                            {(step < totalSteps - 1) ? <Button onClick={handleNext} >next</Button> : <Button type="submit">submit</Button>}
+
                         </div>
                     </form>
                 </div>

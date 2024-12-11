@@ -35,7 +35,7 @@ export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiEr
             name="destination"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel>destination</FormLabel>
+                    <FormLabel>Let start with your dream destination.</FormLabel>
                     <FormControl>
                         <div>
                             <Input placeholder="search your place" {...field} value={query} onChange={handleInputChange} />
@@ -62,6 +62,7 @@ export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiEr
 )
 export const StepTwo = () => (
     <>
+        <p className=' font-semibold mb-4'>Pick your travel dates to get started</p>
         <FormField
             name="startDate"
             render={({ field }) => (
@@ -87,4 +88,22 @@ export const StepTwo = () => (
             )}
         />
     </>
+)
+export const StepThree = () => (
+    <FormField
+        name="groupSize"
+        render={({ field }) => (
+            <FormItem>
+                <FormLabel>Share the number of travelers joining you on this adventure</FormLabel>
+                <FormControl>
+                    <div>
+                        <Input type="number" placeholder="Enter group size" {...field} />
+
+
+                    </div>
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        )}
+    />
 )
