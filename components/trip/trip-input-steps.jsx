@@ -30,8 +30,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+
 export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiError, suggestions }) => (
-    <div>
+    <div className='py-5'>
         <FormField
             name="destination"
             render={({ field }) => (
@@ -58,11 +59,6 @@ export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiEr
                 </FormItem>
             )}
         />
-
-    </div>
-)
-export const StepTwo = () => (
-    <>
         <p className=' font-semibold mb-4'>Pick your travel dates to get started</p>
         <FormField
             name="startDate"
@@ -148,9 +144,10 @@ export const StepTwo = () => (
             )}
         />
 
-    </>
+    </div>
 )
-export const StepThree = () => (
+export const StepTwo = () => (<div className="my-4">
+
     <FormField
         name="groupSize"
         render={({ field }) => (
@@ -167,4 +164,43 @@ export const StepThree = () => (
             </FormItem>
         )}
     />
+    <FormField
+        name="activities"
+        render={({ field }) => (
+            <FormItem>
+                <FormLabel>Trip Vibe</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a activity" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        <SelectItem value="Nightlife">Clubs, rooftop bars, or just stargazing with some music </SelectItem>
+                        <SelectItem value="Culture">Love history and stories? How about museums, temples, or art tours?</SelectItem>
+                        <SelectItem value="Adventure">crave thrills? Think hiking, bungee jumping, or chasing waterfalls!</SelectItem>
+                        <SelectItem value="Relaxation">Relaxation</SelectItem>
+                        <SelectItem value="Special Activities">something unique about the destination you’d love to try? Yoga retreats, camel rides, or hot air balloons?</SelectItem>
+                    </SelectContent>
+                </Select>
+                <FormMessage />
+            </FormItem>
+        )}
+    />
+    <FormField
+
+        name="budget"
+        render={({ field }) => (
+            <FormItem>
+                <FormLabel>Your Budget </FormLabel>
+                <FormControl>
+                    <Input placeholder="write a budget in ruppes for example 1000" {...field} />
+                </FormControl>
+
+                <FormMessage />
+            </FormItem>
+        )}
+    />
+
+</div>
 )
