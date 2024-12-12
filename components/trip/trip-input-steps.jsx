@@ -59,86 +59,18 @@ export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiEr
                 </FormItem>
             )}
         />
-        <p className=' font-semibold mb-4'>Pick your travel dates to get started</p>
         <FormField
-            name="startDate"
+            name="tripDuration"
             render={({ field }) => (
-                <FormItem className="flex flex-col">
-                    <FormLabel>Trip Start Date</FormLabel>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <FormControl>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-[240px] pl-3 text-left font-normal",
-                                        !field.value && "text-muted-foreground"
-                                    )}
-                                >
-                                    {field.value ? (
-                                        format(field.value, "PPP")
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                    date < new Date() || date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                            />
-                        </PopoverContent>
-                    </Popover>
+                <FormItem>
+                    <FormLabel>Share the number of days you want to travel</FormLabel>
+                    <FormControl>
+                        <div>
+                            <Input placeholder="Enter group size" {...field} />
 
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
 
-        <FormField
-            name="endDate"
-            render={({ field }) => (
-                <FormItem className="flex flex-col">
-                    <FormLabel>Trip End Date</FormLabel>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <FormControl>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-[240px] pl-3 text-left font-normal",
-                                        !field.value && "text-muted-foreground"
-                                    )}
-                                >
-                                    {field.value ? (
-                                        format(field.value, "PPP")
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                    date < new Date() || date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                            />
-                        </PopoverContent>
-                    </Popover>
-
+                        </div>
+                    </FormControl>
                     <FormMessage />
                 </FormItem>
             )}
@@ -148,18 +80,26 @@ export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiEr
 )
 export const StepTwo = () => (<div className="my-4">
 
+
     <FormField
         name="groupSize"
         render={({ field }) => (
             <FormItem>
-                <FormLabel>Share the number of travelers joining you on this adventure</FormLabel>
-                <FormControl>
-                    <div>
-                        <Input type="number" placeholder="Enter group size" {...field} />
+                <FormLabel>Travelling with</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select number of traveller" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        <SelectItem value="Couple">Couple </SelectItem>
+                        <SelectItem value="Single">Single</SelectItem>
+                        <SelectItem value="Family">Family</SelectItem>
+                        <SelectItem value="Friends">Friends</SelectItem>
 
-
-                    </div>
-                </FormControl>
+                    </SelectContent>
+                </Select>
                 <FormMessage />
             </FormItem>
         )}
@@ -188,19 +128,27 @@ export const StepTwo = () => (<div className="my-4">
         )}
     />
     <FormField
-
         name="budget"
         render={({ field }) => (
             <FormItem>
-                <FormLabel>Your Budget </FormLabel>
-                <FormControl>
-                    <Input placeholder="write a budget in ruppes for example 1000" {...field} />
-                </FormControl>
-
+                <FormLabel>Trip Budget</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a Budget" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        <SelectItem value="cheap">Cheap </SelectItem>
+                        <SelectItem value="Moderate">Moderate</SelectItem>
+                        <SelectItem value="Luxury">Luxury</SelectItem>
+                    </SelectContent>
+                </Select>
                 <FormMessage />
             </FormItem>
         )}
     />
+
 
 </div>
 )

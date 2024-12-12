@@ -13,11 +13,10 @@ import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
 const stepSchemas = [
     z.object({
         destination: z.string().min(1, "Destination is required"),
-        startDate: z.date("Start date is required"),
-        endDate: z.date("End date is required"),
+        tripDuration: z.string().min(1, "select atleast one option")
     }),
     z.object({
-        groupSize: z.number().min(1, "Group size must be at least 1"),
+        groupSize: z.string().min(1, "Group size must be at least 1"),
         activities: z.string().min(1, "please select atleast one activity"),
         budget: z.string().min(3, "please fill your budget in ruppes")
     }),
@@ -30,10 +29,9 @@ function Page() {
     const methods = useForm({
         resolver: zodResolver(fullSchemas),
         defaultValues: {
-            destination: "",
-            startDate: undefined,
-            endDate: undefined,
-            groupSize: 1,
+            destination: "new delhi",
+            tripDuration: 1,
+            groupSize: "",
             activities: "",
             budget: ""
         }
