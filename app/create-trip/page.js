@@ -53,7 +53,8 @@ function Page() {
                 body: JSON.stringify(data)
             }
         )
-        console.log(result)
+        const res = await result.json()
+        console.log(res)
     }
     const handleBack = () => {
         if (step > 0) {
