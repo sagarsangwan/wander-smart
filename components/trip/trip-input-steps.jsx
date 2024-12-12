@@ -66,7 +66,7 @@ export const StepOne = ({ query, handleInputChange, handleSuggestionClick, apiEr
                     <FormLabel>Share the number of days you want to travel</FormLabel>
                     <FormControl>
                         <div>
-                            <Input placeholder="Enter group size" {...field} />
+                            <Input type="number" placeholder="Enter group size" {...field} />
 
 
                         </div>

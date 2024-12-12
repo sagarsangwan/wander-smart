@@ -46,8 +46,14 @@ function Page() {
             console.log("error")
         }
     }
-    const onSubmit = (data) => {
-        console.log(data)
+    const onSubmit = async (data) => {
+        const result = await fetch("/api/generate-trip-plan",
+            {
+                method: "POST",
+                body: JSON.stringify(data)
+            }
+        )
+        console.log(result)
     }
     const handleBack = () => {
         if (step > 0) {
