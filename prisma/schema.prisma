@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id                String              @id @default(cuid())
+  id                String     @id @default(cuid())
   name              String?
-  email             String              @unique
+  email             String     @unique
   emailVerified     DateTime?
   image             String?
   accounts          Account[]
   sessions          Session[]
-  TripItineraryPlan TripItineraryPlan[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  TripItineraryPlan TripPlan[]
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model Account {
@@ -59,8 +59,10 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-model TripItineraryPlan {
+model TripPlan {
   id                     String   @id @default(cuid())
+  destination            String
+  duration               String
   tripName               String
   tripDescription        String
   timeToRead             String
@@ -78,5 +80,5 @@ model TripItineraryPlan {
   userId                 String   @map("user_id")
   user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("TripItineraryPlan")
+  @@map("TripPlan")
 }

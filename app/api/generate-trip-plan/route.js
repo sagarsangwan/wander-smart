@@ -113,9 +113,10 @@ Strictly adhere to this structure.`
     const culturalEtiquette = parsedAiResult.cultural_etiquette
     const photographySpots = parsedAiResult.photography_spots
     // console.log(timeToRead)
-    const TripItineraryPlan = await prisma.TripItineraryPlan.create({
+    const TripPlan = await prisma.TripPlan.create({
       data: {
         tripName: tripName,
+        destination: destination,
         hotelDetails: hotelDetails,
         itineraryPlan: itineraryPlan,
         tripDescription: tripDescription,
@@ -127,10 +128,11 @@ Strictly adhere to this structure.`
         emergencyContacts: emergencyContacts,
         culturalEtiquette: culturalEtiquette,
         photographySpots: photographySpots,
+        duration: tripDuration,
       }
     })
 
-    return NextResponse.json({ message: "heheheh your itinerary is generated ", data: TripItineraryPlan, status: 200 })
+    return NextResponse.json({ message: "heheheh your itinerary is generated ", data: TripPlan, status: 200 })
   } catch (e) {
     console.log(e)
     return NextResponse.json({ message: e, status: 500 })
