@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  email          String          @unique
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  itineraryplans ItineraryPlan[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  id                String              @id @default(cuid())
+  name              String?
+  email             String              @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  TripItineraryPlan TripItineraryPlan[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 }
 
 model Account {
@@ -59,12 +59,14 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-model ItineraryPlan {
-  id        String   @id @default(cuid())
-  itinerary String
-  createdAt DateTime @default(now())
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model TripItineraryPlan {
+  id            String   @id @default(cuid())
+  tripName      String
+  hotelDetails  Json // This will store your hotel details JSON
+  itineraryPlan Json // This will store your itinerary plan JSON
+  createdAt     DateTime @default(now())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("itinerary_plans")
+  @@map("TripItineraryPlan")
 }

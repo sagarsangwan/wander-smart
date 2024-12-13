@@ -1,0 +1,97 @@
+{
+    "trip_name": "Kathmandu Budget Trip",
+    "hotel_details": [
+        {
+            "HotelName": "Thamel Eco Resort",
+            "Hotel address": "Thamel, Kathmandu 44600, Nepal",
+            "Price": "$20-30",
+            "Rating": "4",
+            "hotel booking url": "https://www.booking.com/hotel/np/thamel-eco-resort.en-gb.html",
+            "description": "Simple, clean rooms with a rooftop terrace in a central location."
+        },
+        {
+            "HotelName": "Hotel Pilgrims",
+            "Hotel address": "Thamel, Kathmandu 44600, Nepal",
+            "Price": "$25-35",
+            "Rating": "3.8",
+            "hotel booking url": "https://www.booking.com/hotel/np/pilgrims.en-gb.html",
+            "description": "Basic hotel with a garden and a restaurant. Good for budget travelers."
+        },
+        {
+            "HotelName": "Alobar1000 Kathmandu",
+            "Hotel address": "Thamel, Kathmandu 44600, Nepal",
+            "Price": "$15-25",
+            "Rating": "4.2",
+            "hotel booking url": "https://www.booking.com/hotel/np/alobar1000.en-gb.html",
+            "description": "Affordable hotel in the heart of Thamel, offering basic amenities."
+        }
+    ],
+    "daily_wise_itinerary_plan": [
+        {
+            "day": 1,
+            "best_time_to_visit": "Morning",
+            "places": [
+                {
+                    "Place name": "Pashupatinath Temple",
+                    "ticket pricing": "1000 NPR per person (for foreigners)",
+                    "rating": "4.5",
+                    "time travel": "30 minutes from Thamel"
+                },
+                {
+                    "Place name": "Boudhanath Stupa",
+                    "ticket pricing": "400 NPR per person (for foreigners)",
+                    "rating": "4.6",
+                    "time travel": "20 minutes from Pashupatinath"
+                }
+            ]
+        },
+        {
+            "day": 2,
+            "best_time_to_visit": "Morning",
+            "places": [
+                {
+                    "Place name": "Swoyambhunath Stupa (Monkey Temple)",
+                    "ticket pricing": "200 NPR per person (for foreigners)",
+                    "rating": "4.4",
+                    "time travel": "30 minutes from Boudhanath"
+                },
+                {
+                    "Place name": "Kathmandu Durbar Square",
+                    "ticket pricing": "1000 NPR per person (for foreigners)",
+                    "rating": "4.3",
+                    "time travel": "20 minutes from Swoyambhunath"
+                }
+            ]
+        },
+        {
+            "day": 3,
+            "best_time_to_visit": "Afternoon",
+            "places": [
+                {
+                    "Place name": "Garden of Dreams",
+                    "ticket pricing": "400 NPR per person",
+                    "rating": "4.2",
+                    "time travel": "10 minutes from Durbar Square"
+                },
+                {
+                    "Place name": "Thamel Area",
+                    "ticket pricing": "Free",
+                    "rating": "4.0",
+                    "time travel": "5 minutes from Garden of Dreams"
+                }
+            ]
+        },
+        {
+            "day": 4,
+            "best_time_to_visit": "Morning",
+            "places": [
+                {
+                    "Place name": "Bhaktapur Durbar Square",
+                    "ticket pricing": "1500 NPR per person",
+                    "rating": "4.5",
+                    "time travel": "1 Hour from Thamel"
+                }
+            ]
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { it } from "date-fns/locale";
 import { NextResponse } from "next/server";
 const {
     GoogleGenerativeAI,
@@ -26,8 +27,42 @@ export async function POST(request) {
         const tripDuration = data["tripDuration"]
         const groupSize = data["groupSize"]
         const budget = data["budget"]
-        const travelPrompt = `Generate travel plan for ${destination} with a ${budget} budget for ${tripDuration} for ${groupSize}, Give me a hotel options list with HotelName, Hotel address, Price, Rating, hotel booking url, description and suggest itinerary with Place name , ticket pricing, rating, time travel for each location for ${tripDuration} with each day plan with best time to visit in JSON FORMAT `
+        const travelPrompt = `Generate a travel plan for ${destination} with a ${budget} budget for ${tripDuration} days for a group size of ${groupSize}.
+The response must be in **valid JSON format** and follow this structure exactly:
 
+{
+  "trip_name": "A descriptive name for the trip based on the destination",
+  "hotel_details": [
+    {
+      "HotelName": "string",
+      "Hotel address": "string",
+      "Price": "string",
+      "Rating": "string or number",
+      "hotel booking url": "string",
+      "description": "string"
+    }
+  ],
+  "daily_wise_itinerary_plan": [
+    {
+      "day": "integer (1, 2, 3, etc.)",
+      "best_time_to_visit": "string (e.g., 'Morning')",
+      "places": [
+        {
+          "Place name": "string",
+          "ticket pricing": "string",
+          "rating": "string or number",
+          "time travel": "string"
+        }
+      ]
+    }
+  ]
+}
+
+The response must:
+- Begin and end with curly braces .
+- Include all fields, even if some fields are empty.
+- Contain no additional explanations or text outside the JSON format.
+Strictly adhere to this structure.`
 
         const apiKey = process.env.GEMINI_API_KEY;
         const genAI = new GoogleGenerativeAI(apiKey);
@@ -43,14 +78,21 @@ export async function POST(request) {
 
         const response = await chatSession.sendMessage(travelPrompt);
         const aiResult = response.response.text()
-        const itineraryPlan = await prisma.ItineraryPlan.create({
+        const parsedAiResult = JSON.parse(aiResult)
+        const tripName = parsedAiResult.trip_name
+        const hotelDetails = parsedAiResult.hotel_details
+        const itineraryPlan = parsedAiResult.daily_wise_itinerary_plan
+        console.log(tripName, hotelDetails, itineraryPlan)
+        const TripItineraryPlan = await prisma.TripItineraryPlan.create({
             data: {
-                itinerary: aiResult,
+                tripName: tripName,
+                hotelDetails: hotelDetails,
+                itineraryPlan: itineraryPlan,
                 userId: session.user.id
             }
         })
 
-        return NextResponse.json({ message: "heheheh your itinerary is generated ", data: itineraryPlan, status: 200 })
+        return NextResponse.json({ message: "heheheh your itinerary is generated ", data: TripItineraryPlan, status: 200 })
     } catch (e) {
         console.log(e)
         return NextResponse.json({ message: e, status: 500 })
