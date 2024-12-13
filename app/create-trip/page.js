@@ -9,11 +9,13 @@ import { FormProvider, useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
+import { useSession } from "next-auth/react"
+import { redirect, useRouter } from "next/navigation"
 
 const stepSchemas = [
     z.object({
         destination: z.string().min(1, "Destination is required"),
-        tripDuration: z.string().min(1, "select atleast one option")
+        tripDuration: z.number().min(1, "select atleast one option")
     }),
     z.object({
         groupSize: z.string().min(1, "Group size must be at least 1"),
@@ -24,7 +26,8 @@ const stepSchemas = [
 const fullSchemas = stepSchemas.reduce((acc, schema) => acc.merge(schema), z.object({}))
 
 function Page() {
-
+    const { data: session } = useSession()
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(0)
     const totalSteps = stepSchemas.length
@@ -59,8 +62,7 @@ function Page() {
             )
             if (result.ok) {
                 const res = await result.json()
-                const data = res.data
-                console.log(data, "dataaaaaaaaaaaaaaaaaaa")
+                return router.push(`/my-trips/${res.data.id}`)
             } else {
                 console.log("error")
                 const res = await result.json()
@@ -130,7 +132,9 @@ function Page() {
         methods.setValue("destination", place.display_name)
         setSuggestions([])
     }
-
+    if (!session) {
+        return redirect('/login')
+    }
 
     return (
         <div>

@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { MapPin, Calendar, DollarSign, Clock } from 'lucide-react'
+import { redirect } from 'next/navigation'
 
 
 
@@ -21,6 +22,9 @@ export default async function page() {
             userId: session.user.id
         }
     })
+    if (!session) {
+        return redirect('/login')
+    }
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-6">Explore Trip Plans</h1>

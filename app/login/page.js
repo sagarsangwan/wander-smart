@@ -1,8 +1,14 @@
 import { SignIn } from '@/components/auth/signin-button'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
+import { auth } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 
-export default function LoginScreen() {
+export default async function LoginScreen() {
+    const session = await auth()
+    if (session?.user) {
+        return redirect("/")
+    }
     return (
         <div className="min-h-screen flex items-center justify-center">
             <div className="max-w-md w-full space-y-8 p-10  rounded-xl shadow-md">

@@ -128,7 +128,7 @@ Strictly adhere to this structure.`
         emergencyContacts: emergencyContacts,
         culturalEtiquette: culturalEtiquette,
         photographySpots: photographySpots,
-        duration: tripDuration,
+        duration: String(tripDuration),
       }
     })
 
