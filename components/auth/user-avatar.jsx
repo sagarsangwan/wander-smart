@@ -8,6 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { SignOut } from "./signout-button"
 
 async function UserAvatar() {
     const session = await auth()
@@ -17,13 +18,13 @@ async function UserAvatar() {
             <DropdownMenu>
                 <DropdownMenuTrigger>  <Avatar>
                     <AvatarImage src={session.user.image} />
-                    <AvatarFallback>CN</AvatarFallback>
                 </Avatar></DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>Billing</DropdownMenuItem>
                     <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    <DropdownMenuItem><SignOut /></DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

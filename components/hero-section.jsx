@@ -1,11 +1,18 @@
+"use client"
 import React from 'react'
-import CreateTripButton from './trip/create-trip-button'
+import Link from 'next/link'
 import { Button } from './ui/button'
 import heroimage from '../public/heroimage.svg'
 import { FlipWords } from './ui/flip-words'
 import Image from 'next/image'
+import { useSession } from "next-auth/react"
 function HeroSection() {
+    const { data: session } = useSession()
+
     const words = ["Expedition", "Voyage", "Journey", "Adventure"];
+    // if (!session) {
+    //     return <p>You are not logged in</p>;
+    // }
     return (
         <section className="flex flex-col  items-center justify-center space-y-10">
             <div className='w-full  justify-center text-center '>
@@ -19,7 +26,14 @@ function HeroSection() {
                 </p>
                 <div className='flex items-center justify-center'>
 
-                    <CreateTripButton />
+                    <Button>
+                        {session?.user ?
+                            <Link href="/create-trip">Book Your Trip  </Link>
+                            :
+                            <Link href="/login">Book Your Trip  </Link>
+
+                        }
+                    </Button>
                 </div>
             </div>
             <div className=' '>

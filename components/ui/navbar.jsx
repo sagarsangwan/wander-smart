@@ -1,9 +1,6 @@
 // "use client"
 import { ModeToggle } from "../mode-toggle"
 import { MenuIcon, User } from "lucide-react"
-
-
-
 import Link from "next/link"
 import { Toggle } from "@/components/ui/toggle"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
@@ -11,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { auth } from "@/lib/auth"
 import { SignIn } from "../auth/signin-button"
 import UserAvatar from "../auth/user-avatar"
+import { se } from "date-fns/locale"
 
 export default async function Navbar() {
     const session = await auth()
