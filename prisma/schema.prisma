@@ -60,13 +60,23 @@ model VerificationToken {
 }
 
 model TripItineraryPlan {
-  id            String   @id @default(cuid())
-  tripName      String
-  hotelDetails  Json // This will store your hotel details JSON
-  itineraryPlan Json // This will store your itinerary plan JSON
-  createdAt     DateTime @default(now())
-  userId        String   @map("user_id")
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                     String   @id @default(cuid())
+  tripName               String
+  tripDescription        String
+  timeToRead             String
+  averageBudgetPerPerson String
+  travelTips             Json
+  // weatherForcast         String
+  localCuisines          Json
+  emergencyContacts      Json
+  culturalEtiquette      String
+  photographySpots       Json
+  // transportationOptions Json
+  hotelDetails           Json // This will store your hotel details JSON
+  itineraryPlan          Json // This will store your itinerary plan JSON
+  createdAt              DateTime @default(now())
+  userId                 String   @map("user_id")
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("TripItineraryPlan")
 }

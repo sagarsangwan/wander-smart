@@ -104,7 +104,7 @@ export const StepTwo = () => (<div className="my-4">
             </FormItem>
         )}
     />
-    <FormField
+    {/* <FormField
         name="activities"
         render={({ field }) => (
             <FormItem>
@@ -126,7 +126,7 @@ export const StepTwo = () => (<div className="my-4">
                 <FormMessage />
             </FormItem>
         )}
-    />
+    /> */}
     <FormField
         name="budget"
         render={({ field }) => (

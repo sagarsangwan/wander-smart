@@ -17,13 +17,14 @@ const stepSchemas = [
     }),
     z.object({
         groupSize: z.string().min(1, "Group size must be at least 1"),
-        activities: z.string().min(1, "please select atleast one activity"),
+        // activities: z.string().min(1, "please select atleast one activity"),
         budget: z.string().min(3, "please fill your budget in ruppes")
     }),
 ];
 const fullSchemas = stepSchemas.reduce((acc, schema) => acc.merge(schema), z.object({}))
 
 function Page() {
+
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(0)
     const totalSteps = stepSchemas.length
@@ -33,7 +34,7 @@ function Page() {
             destination: "new delhi",
             tripDuration: 1,
             groupSize: "",
-            activities: "",
+            // activities: "",
             budget: ""
         }
     })
