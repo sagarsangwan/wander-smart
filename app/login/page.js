@@ -14,8 +14,8 @@ export default function LoginScreen() {
                         height={100}
                         className="mx-auto"
                     /> */}
-                    <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Welcome to Our App</h2>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <h2 className="mt-6 text-3xl font-extrabold ">Welcome to Our App</h2>
+                    <p className="mt-2 text-sm text-gray-300">
                         Experience the future of productivity with our innovative platform.
                         Streamline your workflow, collaborate seamlessly, and achieve more.
                     </p>

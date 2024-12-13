@@ -24,6 +24,7 @@ const stepSchemas = [
 const fullSchemas = stepSchemas.reduce((acc, schema) => acc.merge(schema), z.object({}))
 
 function Page() {
+    const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(0)
     const totalSteps = stepSchemas.length
     const methods = useForm({
@@ -47,14 +48,29 @@ function Page() {
         }
     }
     const onSubmit = async (data) => {
-        const result = await fetch("/api/generate-trip-plan",
-            {
-                method: "POST",
-                body: JSON.stringify(data)
+        try {
+            setLoading(true)
+            const result = await fetch("/api/generate-trip-plan",
+                {
+                    method: "POST",
+                    body: JSON.stringify(data)
+                }
+            )
+            if (result.ok) {
+                const res = await result.json()
+                const data = res.data
+                console.log(data, "dataaaaaaaaaaaaaaaaaaa")
+            } else {
+                console.log("error")
+                const res = await result.json()
+
             }
-        )
-        const res = await result.json()
-        console.log(res)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+
     }
     const handleBack = () => {
         if (step > 0) {
@@ -125,8 +141,11 @@ function Page() {
                         {step === 1 && <StepTwo />}
                         {/* {step === 2 && <StepThree />} */}
                         <div className="flex justify-between mt-6">
-                            <Button onClick={handleBack} disabled={step === 0}>back</Button>
-                            {(step < totalSteps - 1) ? <Button onClick={handleNext} >next</Button> : <Button type="submit">submit</Button>}
+                            {loading ? (<Button>loading...</Button>) :
+
+                                (<> <Button onClick={handleBack} disabled={step === 0}>back</Button>
+                                    {(step < totalSteps - 1) ? (<Button onClick={handleNext} >next</Button>) : (<Button type="submit">submit</Button>)}</>)
+                            }
 
                         </div>
                     </form>

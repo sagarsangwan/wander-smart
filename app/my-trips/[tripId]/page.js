@@ -5,9 +5,7 @@ function page({ params }) {
     const currentId = params.tripId
     return (
         <div>
-            <p>
 
-            </p>
         </div>
     )
 }
