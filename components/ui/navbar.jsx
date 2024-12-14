@@ -9,6 +9,7 @@ import { auth } from "@/lib/auth"
 import { SignIn } from "../auth/signin-button"
 import UserAvatar from "../auth/user-avatar"
 import { se } from "date-fns/locale"
+import { Badge } from "./badge"
 
 export default async function Navbar() {
     const session = await auth()
@@ -35,6 +36,11 @@ export default async function Navbar() {
                     >
                         My Itineraries
                     </Link>
+                    {(session.user?.balance > 1) ?
+
+                        <Badge variant="secondary"> {session.user?.balance} Quota left </Badge>
+                        : <Badge variant="outline">{3 - session.user?.freePlanUsed} free Quota left</Badge>
+                    }
 
                 </nav>
                 <div className="flex items-center gap-4">
