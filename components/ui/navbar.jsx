@@ -29,11 +29,11 @@ export default async function Navbar() {
                         Home
                     </Link>
                     <Link
-                        href="#"
+                        href="/my-trips"
                         className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                         prefetch={false}
                     >
-                        Pricing
+                        My Itineraries
                     </Link>
 
                 </nav>
@@ -58,11 +58,11 @@ export default async function Navbar() {
                                     Home
                                 </Link>
                                 <Link
-                                    href="#"
+                                    href="/my-trips"
                                     className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                                     prefetch={false}
                                 >
-                                    Pricing
+                                    My Itineraries
                                 </Link>
                             </div>
                         </SheetContent>

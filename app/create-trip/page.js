@@ -15,7 +15,7 @@ import { redirect, useRouter } from "next/navigation"
 const stepSchemas = [
     z.object({
         destination: z.string().min(1, "Destination is required"),
-        tripDuration: z.number().min(1, "select atleast one option")
+        tripDuration: z.string().min(1, "select atleast one option")
     }),
     z.object({
         groupSize: z.string().min(1, "Group size must be at least 1"),
@@ -34,7 +34,7 @@ function Page() {
     const methods = useForm({
         resolver: zodResolver(fullSchemas),
         defaultValues: {
-            destination: "new delhi",
+            destination: "",
             tripDuration: 1,
             groupSize: "",
             // activities: "",

@@ -20,10 +20,9 @@ export default async function LoginScreen() {
                         height={100}
                         className="mx-auto"
                     /> */}
-                    <h2 className="mt-6 text-3xl font-extrabold ">Welcome to Our App</h2>
-                    <p className="mt-2 text-sm text-gray-300">
-                        Experience the future of productivity with our innovative platform.
-                        Streamline your workflow, collaborate seamlessly, and achieve more.
+                    <h2 className="mt-6 text-3xl font-extrabold ">Welcome to Wander Smart</h2>
+                    <p className="mt-2 text-sm dark:text-gray-300 text-dark">
+                        Simply input your destination, preferences, and travel dates, and let us create a personalized journey tailored just for you. Discover hidden gems, must-see attractions, and curated experiences that make your trip unforgettable. Start exploring today and turn your travel dreams into reality!
                     </p>
                 </div>
                 <div className="text-center">

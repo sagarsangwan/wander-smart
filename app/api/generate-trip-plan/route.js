@@ -73,6 +73,7 @@ The response must be in **valid JSON format** and follow this structure exactly:
 
 The response must:
 - Begin and end with curly braces .
+- add some emojis for better readability in all trip plan.
 - Include all fields, even if some fields are empty.
 - Contain no additional explanations or text outside the JSON format.
 Strictly adhere to this structure.`
