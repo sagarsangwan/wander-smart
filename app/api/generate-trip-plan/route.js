@@ -20,7 +20,9 @@ const generationConfig = {
 
 export async function POST(request) {
   const session = await auth()
-
+  if (session?.user?.balance === 0 && session.user?.freePlanUsed === 3) {
+    return NextResponse.json({ message: "u don't have any credit", status: 500 },)
+  }
   try {
     const data = await request.json()
     const destination = data["destination"]
@@ -132,8 +134,37 @@ Strictly adhere to this structure.`
         duration: String(tripDuration),
       }
     })
+    let updatedUser
+    if (session?.user?.balance > 1) {
+      console.log("balance haiiiiiiiiiiiiii")
+      const totalBalanceUsed = session.user?.totalBalanceUsed + 1
+      const balance = session.user?.balance - 1
+      const balanceUsed = session.user?.balanceUsed + 1
+      updatedUser = await prisma.user.update({
+        where: { id: session?.user?.id },
+        data: {
+          balanceUsed: balanceUsed,
+          balance: balance,
+          totalBalanceUsed: totalBalanceUsed
+        }
+      })
+    }
+    if (session?.user?.balance === 0 && session.user?.freePlanUsed < 3) {
+      console.log("balance nhiiiiii haiiiiiiiiiiiiii free quota haiiiiiiiiiiiiiiiii")
 
-    return NextResponse.json({ message: "heheheh your itinerary is generated ", data: TripPlan, status: 200 })
+      const freePlanUsed = session.user?.freePlanUsed + 1
+      const totalBalanceUsed = session.user?.totalBalanceUsed + 1
+      updatedUser = await prisma.user.update({
+        where: { id: session?.user?.id },
+        data: {
+          totalBalanceUsed: totalBalanceUsed,
+          freePlanUsed: freePlanUsed
+        }
+      })
+    }
+
+
+    return NextResponse.json({ message: "heheheh your itinerary is generated ", data: TripPlan, updatedUser: updatedUser, status: 200 })
   } catch (e) {
     console.log(e)
     return NextResponse.json({ message: e, status: 500 })

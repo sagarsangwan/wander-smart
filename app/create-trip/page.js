@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button"
 import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
 import { useSession } from "next-auth/react"
 import { redirect, useRouter } from "next/navigation"
+import toast from "react-hot-toast"
+import planExpired from "@/components/trip/planExpired"
+import PlanExpired from "@/components/trip/planExpired"
 
 const stepSchemas = [
     z.object({
@@ -27,6 +30,7 @@ const fullSchemas = stepSchemas.reduce((acc, schema) => acc.merge(schema), z.obj
 
 function Page() {
     const { data: session } = useSession()
+
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(0)
@@ -136,26 +140,38 @@ function Page() {
         return redirect('/login')
     }
 
+
     return (
         <div>
-            <FormProvider {...methods}>
-                <div className=" max-w-md mx-auto p-4 ">
-                    <Progress className="my-4" value={((step + 1) / totalSteps * 100)} />
-                    <form onSubmit={methods.handleSubmit(onSubmit)} className="my-10" >
-                        {step === 0 && <StepOne suggestions={suggestions} apiError={apiError} query={query} handleInputChange={handleInputChange} handleSuggestionClick={handleSuggestionClick} />}
-                        {step === 1 && <StepTwo />}
-                        {/* {step === 2 && <StepThree />} */}
-                        <div className="flex justify-between mt-6">
-                            {loading ? (<Button>loading...</Button>) :
 
-                                (<> <Button onClick={handleBack} disabled={step === 0}>back</Button>
-                                    {(step < totalSteps - 1) ? (<Button onClick={handleNext} >next</Button>) : (<Button type="submit">submit</Button>)}</>)
-                            }
+            {(session.user?.balance === 0 && session.user?.freePlanUsed === 3) ?
+                <PlanExpired />
+                :
 
+                (<div>
+                    <FormProvider {...methods}>
+                        <div className=" max-w-md mx-auto p-4 ">
+                            <Progress className="my-4" value={((step + 1) / totalSteps * 100)} />
+                            <form onSubmit={methods.handleSubmit(onSubmit)} className="my-10" >
+                                {step === 0 && <StepOne suggestions={suggestions} apiError={apiError} query={query} handleInputChange={handleInputChange} handleSuggestionClick={handleSuggestionClick} />}
+                                {step === 1 && <StepTwo />}
+                                {/* {step === 2 && <StepThree />} */}
+                                <div className="flex justify-between mt-6">
+                                    {loading ? (<Button>loading...</Button>) :
+
+                                        (<> <Button onClick={handleBack} disabled={step === 0}>back</Button>
+                                            {(step < totalSteps - 1) ? (<Button onClick={handleNext} >next</Button>) : (<Button type="submit">submit</Button>)}</>)
+                                    }
+
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-            </FormProvider>
+                    </FormProvider>
+                </div>)
+
+
+            }
+
         </div>
     )
 }
