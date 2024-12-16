@@ -142,13 +142,14 @@ function Page() {
 
 
     return (
-        <div>
+        <>
 
             {(session.user?.balance === 0 && session.user?.freePlanUsed === 3) ?
                 <PlanExpired />
                 :
 
-                (<div>
+                (<div className=" h-screen">
+
                     <FormProvider {...methods}>
                         <div className=" max-w-md mx-auto p-4 ">
                             <Progress className="my-4" value={((step + 1) / totalSteps * 100)} />
@@ -167,12 +168,13 @@ function Page() {
                             </form>
                         </div>
                     </FormProvider>
+
                 </div>)
 
 
             }
 
-        </div>
+        </>
     )
 }
 
