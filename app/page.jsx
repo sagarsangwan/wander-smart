@@ -9,8 +9,7 @@ import {
 
 
 import HeroSection from "@/components/hero-section";
-import { WanderSmartLogo } from '@/components/ui/logo';
-import Link from 'next/link';
+
 
 export default async function Home() {
   const faqs = [
@@ -117,32 +116,8 @@ export default async function Home() {
           </Accordion>
         ))}
       </div>
-      {/* footer */}
-      <footer className='mt-10'>
-        <div className='flex justify-between'>
-          <div>
-            <WanderSmartLogo className="w-40 h-auto sm:w-30" />
-          </div>
-          <ul className='flex gap-3'>
-            <li>
-              <Link href={"/terms"} className='text-red-500'>
-                Terms
-              </Link>
-            </li>
-            <li>
-              <Link className='text-red-500' href={'/privacy'}>
-                Privacy
-              </Link>
-            </li>
-            <li>
-              <Link href={"/contace-us"} className='text-red-500'>
-                Contact Us
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <p className='w-full text-center py-8'>© 2024 WanderSmart. All rights reserved.</p>
-      </footer>
+
+
 
     </div >
   );

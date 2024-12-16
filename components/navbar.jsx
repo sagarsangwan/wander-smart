@@ -16,9 +16,7 @@ export default async function Navbar() {
         <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
             <div className=" mx-auto flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2" prefetch={false}>
-                    {/* <MountainIcon className="h-6 w-6" /> */}
                     <WanderSmartLogo className="w-40 h-auto sm:w-30" />
-                    {/* <span className="text-lg font-semibold">wander Smart</span> */}
                 </Link>
                 <nav className="hidden items-center gap-6 md:flex">
                     <Link
@@ -43,22 +41,14 @@ export default async function Navbar() {
                         Pricing
                     </Link>
 
-
+                </nav>
+                <div className="flex items-center gap-4">
                     {session?.user && ((session?.user?.balance === 0 && session?.user?.freePlanUsed < 3) ?
                         <Badge variant="outline">{3 - session?.user?.freePlanUsed} free token left</Badge>
                         : <Badge variant="secondary"> {session?.user?.balance} token left </Badge>)
-
                     }
+                    {session && (<UserAvatar />)}
 
-                </nav>
-                <div className="flex items-center gap-4">
-                    <ModeToggle />
-                    {!session ? <SignIn /> : <UserAvatar />}
-                    {session?.user && ((session.user?.balance === 0 && session.user?.freePlanUsed < 3) ?
-                        <Badge variant="outline">{3 - session.user?.freePlanUsed} free token left</Badge>
-                        : <Badge variant="secondary"> {session.user?.balance} token left </Badge>
-
-                    )}
 
                     <Sheet>
                         <SheetTrigger asChild>
@@ -84,12 +74,15 @@ export default async function Navbar() {
                                     My Itineraries
                                 </Link>
                                 <Link
-                                    href="/my-trips"
+                                    href="/pricing"
                                     className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                                     prefetch={false}
                                 >
                                     Pricing
                                 </Link>
+                                <ModeToggle />
+                                {!session ? <SignIn /> : <UserAvatar />}
+
                             </div>
                         </SheetContent>
                     </Sheet>

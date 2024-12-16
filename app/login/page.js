@@ -12,10 +12,10 @@ export default async function LoginScreen() {
     }
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="max-w-md w-full space-y-8 p-10  rounded-xl shadow-md">
+            <div className="max-w-md w-full space-y-8 p-10 m-auto  rounded-xl shadow-md">
                 <div className="text-center">
                     <WanderSmartLogo />
-                    <h2 className="mt-6 text-3xl font-extrabold ">Sign in to your account
+                    <h2 className="mt-6 text-xl md:text-3xl font-extrabold ">Sign in to your account
                     </h2>
 
                 </div>
