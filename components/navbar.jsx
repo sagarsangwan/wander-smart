@@ -44,9 +44,9 @@ export default async function Navbar() {
                     </Link>
 
 
-                    {(session.user?.balance === 0 && session.user?.freePlanUsed < 3) ?
-                        <Badge variant="outline">{3 - session.user?.freePlanUsed} free token left</Badge>
-                        : <Badge variant="secondary"> {session.user?.balance} token left </Badge>
+                    {session?.user && ((session?.user?.balance === 0 && session?.user?.freePlanUsed < 3) ?
+                        <Badge variant="outline">{3 - session?.user?.freePlanUsed} free token left</Badge>
+                        : <Badge variant="secondary"> {session?.user?.balance} token left </Badge>)
 
                     }
 
@@ -54,11 +54,12 @@ export default async function Navbar() {
                 <div className="flex items-center gap-4">
                     <ModeToggle />
                     {!session ? <SignIn /> : <UserAvatar />}
-                    {(session.user?.balance === 0 && session.user?.freePlanUsed < 3) ?
+                    {session?.user && ((session.user?.balance === 0 && session.user?.freePlanUsed < 3) ?
                         <Badge variant="outline">{3 - session.user?.freePlanUsed} free token left</Badge>
                         : <Badge variant="secondary"> {session.user?.balance} token left </Badge>
 
-                    }
+                    )}
+
                     <Sheet>
                         <SheetTrigger asChild>
                             <Button variant="outline" size="icon" className="md:hidden">
