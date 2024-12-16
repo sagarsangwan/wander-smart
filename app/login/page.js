@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import { WanderSmartLogo } from '@/components/ui/logo'
 
 export default async function LoginScreen() {
     const session = await auth()
@@ -13,23 +14,33 @@ export default async function LoginScreen() {
         <div className="min-h-screen flex items-center justify-center">
             <div className="max-w-md w-full space-y-8 p-10  rounded-xl shadow-md">
                 <div className="text-center">
-                    {/* <Image
-                        src="/placeholder.svg?height=100&width=100"
-                        alt="App Logo"
-                        width={100}
-                        height={100}
-                        className="mx-auto"
-                    /> */}
-                    <h2 className="mt-6 text-3xl font-extrabold ">Welcome to Wander Smart</h2>
-                    <p className="mt-2 text-sm dark:text-gray-300 text-dark">
-                        Simply input your destination, preferences, and travel dates, and let us create a personalized journey tailored just for you. Discover hidden gems, must-see attractions, and curated experiences that make your trip unforgettable. Start exploring today and turn your travel dreams into reality!
-                    </p>
+                    <WanderSmartLogo />
+                    <h2 className="mt-6 text-3xl font-extrabold ">Sign in to your account
+                    </h2>
+
                 </div>
-                <div className="text-center">
-                    <SignIn />
+                <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                    <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                        <div className="mt-6">
+                            <div className="relative">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t border-gray-300" />
+                                </div>
+                                <div className="relative flex justify-center text-sm">
+                                    <span className="px-2 bg-white text-gray-500">Sign in with</span>
+                                </div>
+                            </div>
+
+                            <div className="mt-6">
+                                <SignIn />
+
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
