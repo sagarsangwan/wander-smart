@@ -16,11 +16,11 @@ function PlanExpired() {
             <div className=' m-auto'>
                 <Card className="justify-center text-center">
                     <CardHeader>
-                        <CardTitle>OOps, You are out of credit</CardTitle>
+                        <CardTitle>OOps, You are out of Token</CardTitle>
                     </CardHeader>
                     <CardFooter className="text-center justify-center ">
                         <Button size="lg" className="animate-bounce">
-                            <Link href="/subscribe">Buy Some Credit</Link>
+                            <Link href="/pricing">Buy Some Token</Link>
                         </Button>
                     </CardFooter>
                 </Card>
