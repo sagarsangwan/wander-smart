@@ -17,11 +17,14 @@ import { redirect } from 'next/navigation'
 
 export default async function page() {
     const session = await auth()
-    const tripsData = await prisma.TripPlan.findMany({
-        where: {
-            userId: session.user.id
-        }
-    })
+    let tripsData
+    if (session) {
+        tripsData = await prisma.TripPlan.findMany({
+            where: {
+                userId: session.user.id
+            }
+        })
+    }
     if (!session) {
         return redirect('/login')
     }
@@ -29,7 +32,15 @@ export default async function page() {
         <div className="container mx-auto p-4 min-h-screen">
             <h1 className="text-3xl font-bold mb-6">Explore Trip Plans</h1>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {tripsData.map((trip) => (
+                {tripsData.length === 0 && (
+                    <div>
+                        <Button>
+
+                            <Link href="/create-trip">Start Planning  </Link>
+                        </Button>
+                    </div>
+                )}
+                {tripsData.length > 1 && tripsData.map((trip) => (
                     <Card key={trip.id} className="flex flex-col">
                         <CardHeader>
                             <CardTitle>{trip.tripName}</CardTitle>

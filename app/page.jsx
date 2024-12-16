@@ -23,7 +23,7 @@ export default async function Home() {
     },
     {
       question: "What are Wander Smart Tokens, and how do I use them?",
-      answer: "Wander Smart Tokens are our in-app currency that lets you access premium features such as personalized itineraries, expert advice, and travel discounts. Each token costs 20 Rupees, with discounts available for bulk purchases, such as 10% off for 10 tokens and 15% off for 20 tokens. You can purchase tokens through our platform using your preferred payment method.",
+      answer: "Wander Smart Tokens are our in-app currency that lets you generate a trip 1 token == 1 trip generation. Each token costs 20 Rupees, with discounts available for bulk purchases, such as 10% off for 10 tokens and 15% off for 20 tokens. You can purchase tokens through our platform using your preferred payment method.",
     },
     {
       question: "Can I access Wander Smart offline?",
