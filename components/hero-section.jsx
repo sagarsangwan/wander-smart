@@ -28,9 +28,9 @@ function HeroSection() {
 
                     <Button>
                         {session?.user ?
-                            <Link href="/create-trip">Book Your Trip  </Link>
+                            <Link href="/create-trip">Start Planning  </Link>
                             :
-                            <Link href="/login">Book Your Trip  </Link>
+                            <Link href="/login">Start Planning  </Link>
 
                         }
                     </Button>

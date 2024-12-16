@@ -16,10 +16,10 @@ function Page() {
     // const [tokens, setTokens] = useState(1)
     return (
         <div className='h-screen flex'>
-            <div className='mx-auto max-w-md w-full'>
+            <div className='mx-auto max-w-md w-full mt-10'>
                 <Card className=" ">
-                    <CardHeader className="bg-rose">
-                        <CardTitle className="text-3xl">WanderSmart Tokens</CardTitle>
+                    <CardHeader className="">
+                        <CardTitle className="text-3xl">Wander Smart Tokens</CardTitle>
                         <CardDescription>Fuel your adventures</CardDescription>
                     </CardHeader>
                     <CardContent className="flex justify-center text-center">
@@ -27,7 +27,7 @@ function Page() {
                             <div>
                                 <WanderSmartLogo />
                             </div>
-                            <div className='justify-center mt-10'>
+                            <div className='justify-center mt-4'>
                                 <p className="text-xl">
                                     1 Token = 20 Rupees
                                     <br />
@@ -39,13 +39,13 @@ function Page() {
 
                                 </p>
                             </div>
-                            <div className='flex mt-10 justify-center text-center'>
+                            <div className='flex mt-5 justify-center text-center'>
                                 <Button onClick={handleDecrement}>-</Button>
                                 <span className='min-w-20'>{tokens}</span>
                                 <Button onClick={handleIncrement}>+</Button>
 
                             </div>
-                            <p className='mt-10 text-2xl'>
+                            <p className='mt-5 text-2xl'>
                                 Total : ₹ {total.toFixed()}.00
                             </p>
                             {tokens >= 10 && tokens < 20 && (

@@ -1,4 +1,4 @@
-export function WanderSmartLogo({ className = "", width = 200, height = 60 }) {
+export function WanderSmartLogo({ className = "", width = "100%", height = "auto" }) {
     return (
         <svg
             width={width}

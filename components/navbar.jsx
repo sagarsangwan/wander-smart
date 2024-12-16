@@ -1,15 +1,14 @@
-// "use client"
-import { ModeToggle } from "../mode-toggle"
+import { ModeToggle } from "./mode-toggle"
 import { MenuIcon, User } from "lucide-react"
 import Link from "next/link"
-import { Toggle } from "@/components/ui/toggle"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { auth } from "@/lib/auth"
-import { SignIn } from "../auth/signin-button"
-import UserAvatar from "../auth/user-avatar"
+import { SignIn } from "./auth/signin-button"
+import UserAvatar from "./auth/user-avatar"
 import { se } from "date-fns/locale"
-import { Badge } from "./badge"
+import { Badge } from "./ui/badge"
+import { WanderSmartLogo } from "./ui/logo"
 
 export default async function Navbar() {
     const session = await auth()
@@ -18,8 +17,8 @@ export default async function Navbar() {
             <div className=" mx-auto flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2" prefetch={false}>
                     {/* <MountainIcon className="h-6 w-6" /> */}
-
-                    <span className="text-lg font-semibold">wander Smart</span>
+                    <WanderSmartLogo className="w-40 h-auto sm:w-30" />
+                    {/* <span className="text-lg font-semibold">wander Smart</span> */}
                 </Link>
                 <nav className="hidden items-center gap-6 md:flex">
                     <Link
