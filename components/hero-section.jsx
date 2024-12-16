@@ -37,7 +37,7 @@ function HeroSection() {
                 </div>
             </div>
             <div className=' '>
-                <Image src={heroimage} alt="heroimage" />
+                {/* <Image src={heroimage} alt="heroimage" /> */}
             </div>
         </section>
     )
