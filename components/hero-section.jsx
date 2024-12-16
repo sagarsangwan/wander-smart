@@ -14,7 +14,7 @@ function HeroSection() {
     //     return <p>You are not logged in</p>;
     // }
     return (
-        <section className="flex flex-col  items-center justify-center space-y-10">
+        <section className="flex flex-col  items-center justify-center space-y-10 mt-10">
             <div className='w-full  justify-center text-center '>
                 <div className='text-3xl md:text-4xl lg:text-5xl font-bold'> Unlock Your Next <span className=' text-rose-500'> <FlipWords words={words} /> with Wander Smart!</span>
                 </div> <br />

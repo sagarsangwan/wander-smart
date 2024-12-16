@@ -60,7 +60,7 @@ export default async function Home() {
               <MapPin />
             </div>
 
-            <p className='text-3xl'>AI-Curated Destinations
+            <p className='font-medium text-lg'>AI-Curated Destinations
             </p>
             <p className='text-gray-500'>Discover hidden gems and popular spots tailored to your preferences.
 
@@ -71,7 +71,7 @@ export default async function Home() {
               <Calendar />
             </div>
 
-            <p className='text-3xl'>Smart Itineraries
+            <p className='font-medium text-lg'>Smart Itineraries
 
             </p>
             <p className='text-gray-500'>
@@ -85,7 +85,7 @@ export default async function Home() {
               <Sparkles />
             </div>
 
-            <p className='text-3xl'>
+            <p className='font-medium text-lg'>
               Personalized Experiences
             </p>
             <p className='text-gray-500'>
