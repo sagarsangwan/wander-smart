@@ -15,7 +15,7 @@ export default function TermsPage() {
                     <section>
                         <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h2>
                         <p>
-                            By accessing or using WanderSmart's services, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.
+                            By accessing or using WanderSmart services, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.
                         </p>
                     </section>
 
