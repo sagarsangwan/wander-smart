@@ -2,7 +2,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button } from './ui/button'
-import heroimage from '../public/heroimage.svg'
 import { FlipWords } from './ui/flip-words'
 import Image from 'next/image'
 import { useSession } from "next-auth/react"
