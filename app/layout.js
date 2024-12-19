@@ -19,6 +19,7 @@ export const metadata = {
     google: 'google',
     yandex: 'yandex',
     yahoo: 'yahoo',
+    
     other: {
       "google-site-verification": ['dPX5pFBWC0uIN7UcstmKdDk34jv1N_FEXjqLCNI1Dh8' ],
     },
