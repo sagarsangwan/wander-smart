@@ -11,9 +11,8 @@ import { Button } from "@/components/ui/button"
 import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
 import { useSession } from "next-auth/react"
 import { redirect, useRouter } from "next/navigation"
-import toast from "react-hot-toast"
-import planExpired from "@/components/trip/planExpired"
 import PlanExpired from "@/components/trip/planExpired"
+import toast from "react-hot-toast"
 
 const stepSchemas = [
     z.object({
@@ -70,6 +69,7 @@ function Page() {
             } else {
                 console.log("error")
                 const res = await result.json()
+                toast(res.message)
 
             }
         } catch (error) {

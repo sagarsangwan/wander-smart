@@ -1,6 +1,4 @@
 import { SignIn } from '@/components/auth/signin-button'
-import Image from 'next/image'
-import { Button } from "@/components/ui/button"
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { WanderSmartLogo } from '@/components/ui/logo'

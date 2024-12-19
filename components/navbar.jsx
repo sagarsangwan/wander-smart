@@ -1,102 +1,99 @@
-import { ModeToggle } from "./mode-toggle"
-import { MenuIcon, User } from "lucide-react"
-import Link from "next/link"
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button"
-import { auth } from "@/lib/auth"
-import { SignIn } from "./auth/signin-button"
-import UserAvatar from "./auth/user-avatar"
-import { se } from "date-fns/locale"
-import { Badge } from "./ui/badge"
-import { WanderSmartLogo } from "./ui/logo"
+import { ModeToggle } from "./mode-toggle";
+import { MenuIcon } from "lucide-react";
+import Link from "next/link";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
+import { SignIn } from "./auth/signin-button";
+import UserAvatar from "./auth/user-avatar";
+import { Badge } from "./ui/badge";
+import { WanderSmartLogo } from "./ui/logo";
 
 export default async function Navbar() {
-    const session = await auth()
-    return (
-        <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
-            <div className=" mx-auto flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2" prefetch={false}>
-                    <WanderSmartLogo className="w-40 h-auto sm:w-30" />
+  const session = await auth();
+  return (
+    <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
+      <div className=" mx-auto flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+          <WanderSmartLogo className="w-40 h-auto sm:w-30" />
+        </Link>
+        <nav className="hidden items-center gap-6 md:flex">
+          <Link
+            href="/"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Home
+          </Link>
+          <Link
+            href="/my-trips"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            My Itineraries
+          </Link>
+          <Link
+            href="/pricing"
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            prefetch={false}
+          >
+            Pricing
+          </Link>
+        </nav>
+        <div className="flex items-center gap-4">
+          {session?.user &&
+            (session?.user?.balance === 0 && session?.user?.freePlanUsed < 3 ? (
+              <Badge variant="outline">
+                {3 - session?.user?.freePlanUsed} free token left
+              </Badge>
+            ) : (
+              <Badge variant="secondary">
+                {" "}
+                {session?.user?.balance} token left{" "}
+              </Badge>
+            ))}
+          {session && <UserAvatar />}
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="md:hidden">
+                <MenuIcon className="h-6 w-6" />
+                <span className="sr-only">Toggle navigation menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px]">
+              <div className="flex flex-col gap-4 p-4">
+                <Link
+                  href="/"
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                  prefetch={false}
+                >
+                  Home
                 </Link>
-                <nav className="hidden items-center gap-6 md:flex">
-                    <Link
-                        href="/"
-                        className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                        prefetch={false}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        href="/my-trips"
-                        className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                        prefetch={false}
-                    >
-                        My Itineraries
-                    </Link>
-                    <Link
-                        href="/pricing"
-                        className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                        prefetch={false}
-                    >
-                        Pricing
-                    </Link>
-
-                </nav>
-                <div className="flex items-center gap-4">
-                    {session?.user && ((session?.user?.balance === 0 && session?.user?.freePlanUsed < 3) ?
-                        <Badge variant="outline">{3 - session?.user?.freePlanUsed} free token left</Badge>
-                        : <Badge variant="secondary"> {session?.user?.balance} token left </Badge>)
-                    }
-                    {session && (<UserAvatar />)}
-
-
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button variant="outline" size="icon" className="md:hidden">
-                                <MenuIcon className="h-6 w-6" />
-                                <span className="sr-only">Toggle navigation menu</span>
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="right" className="w-[300px]">
-                            <div className="flex flex-col gap-4 p-4">
-                                <Link
-                                    href="/"
-                                    className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                                    prefetch={false}
-                                >
-                                    Home
-                                </Link>
-                                <Link
-                                    href="/my-trips"
-                                    className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                                    prefetch={false}
-                                >
-                                    My Itineraries
-                                </Link>
-                                <Link
-                                    href="/pricing"
-                                    className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-                                    prefetch={false}
-                                >
-                                    Pricing
-                                </Link>
-                                <ModeToggle />
-                                {!session ? <SignIn /> : <UserAvatar />}
-
-                            </div>
-                        </SheetContent>
-                    </Sheet>
-                </div>
-            </div>
-        </header>
-    )
+                <Link
+                  href="/my-trips"
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                  prefetch={false}
+                >
+                  My Itineraries
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                  prefetch={false}
+                >
+                  Pricing
+                </Link>
+                <ModeToggle />
+                {!session ? <SignIn /> : <UserAvatar />}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  );
 }
-
-
-
-
-
-
 
 // export function Navbar() {
 
@@ -160,6 +157,3 @@ export default async function Navbar() {
 //         </header>)
 //     );
 // }
-
-
-

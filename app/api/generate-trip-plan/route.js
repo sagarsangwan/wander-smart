@@ -1,11 +1,8 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { it } from "date-fns/locale";
 import { NextResponse } from "next/server";
 const {
   GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
 } = require("@google/generative-ai");
 
 

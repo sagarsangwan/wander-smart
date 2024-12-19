@@ -9,7 +9,7 @@ export async function generateStyledPDF(tripData) {
 
     // Add a page to the document
     const page = pdfDoc.addPage([600, 800]);
-    const { width, height } = page.getSize();
+    const {  height } = page.getSize();
     const sanitizeText = (text) => text.replace(/₹/g, '').trim();
     // Set up fonts
     const font = await pdfDoc.embedFont(StandardFonts.Courier);
