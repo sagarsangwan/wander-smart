@@ -15,6 +15,14 @@ export const metadata = {
       'de-DE': '/de-DE',
     },
   },
+  verification: {
+    google: 'google',
+    yandex: 'yandex',
+    yahoo: 'yahoo',
+    other: {
+      "google-site-verification": ['dPX5pFBWC0uIN7UcstmKdDk34jv1N_FEXjqLCNI1Dh8' ],
+    },
+  },
   title: "Wander Smart – Your Travel Companion.",
   description: "Unleash your travel potential with our intelligent itinerary planner",
   
