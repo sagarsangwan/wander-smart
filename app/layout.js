@@ -34,6 +34,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+    <Script async src="https://www.googletagmanager.com/gtag/js?id=G-2P2ZCQVMBJ"/>
+    <Script id="google-analytics" strategy="afterInteractive">
+      {`window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2P2ZCQVMBJ')`}
+    </Script>
       <body suppressHydrationWarning>
         {process.env.NODE_ENV === 'production' && (
           <Script id="clarity_script_script" strategy="afterInteractive">
