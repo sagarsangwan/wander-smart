@@ -1,34 +1,22 @@
-import { Inter } from "next/font/google";
+
 import "./globals.css";
 import Providers from "@/components/providers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-const inter = Inter({ subsets: ["latin"] });
 import Script from "next/script";
 
 export const metadata = {
-  title: "Wander Smart",
+  metadataBase:new URL("https://wander-smart.vercel.app/"),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+      'de-DE': '/de-DE',
+    },
+  },
+  title: "Wander Smart – Your Travel Companion.",
   description: "Unleash your travel potential with our intelligent itinerary planner",
-  openGraph: {
-    title: "Wander Smart",
-    description: "Unleash your travel potential with our intelligent itinerary planner",
-    url: "https://wander-smart.vercel.app/",
-    type: "website",
-    images: [
-      {
-        url: "https://wander-smart.vercel.app/heroImage.png", // Path to your image
-        width: 1200,
-        height: 630,
-        alt: "Preview of wander smart",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image", // Use "summary" for a smaller card
-    title: "Wander Smart",
-    description: "Unleash your travel potential with our intelligent itinerary planner",
-    images: ["https://wander-smart.vercel.app/heroImage.png"],
-  },
+  
 };
 
 export default function RootLayout({ children }) {

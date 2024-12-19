@@ -5,7 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { Clock, DollarSign, Utensils, Phone, Camera, Hotel, MapPin } from 'lucide-react'
+import { Clock, DollarSign, Utensils, Phone, Camera } from 'lucide-react'
 
 import { generateStyledPDF } from './pdf-creator'
 function TripDetails({ tripData }) {

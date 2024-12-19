@@ -4,10 +4,10 @@ import TripDetails from './trip-details'
 
 
 export default async function page({ params }) {
-    const currentId = params.tripId
+    const currentSlug = params.slug
     const tripData = await prisma.TripPlan.findUnique({
         where: {
-            id: currentId
+            slug: currentSlug
         }
     })
     return (

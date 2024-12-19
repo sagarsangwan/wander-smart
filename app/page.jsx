@@ -9,9 +9,11 @@ import {
 
 
 import HeroSection from "@/components/hero-section";
+import { auth } from '@/lib/auth';
 
 
 export default async function Home() {
+  const session = await auth()
   const faqs = [
     {
       question: "What is Wander Smart?",
@@ -43,6 +45,7 @@ export default async function Home() {
     <div className="" >
       <HeroSection />
       {/* feature section */}
+      {!session &&
       <div>
         <div className='text-center py-12'>
           <p className='text-3xl md:text-4xl lg:text-5xl font-bold'>
@@ -97,6 +100,7 @@ export default async function Home() {
 
         </div>
       </div>
+      }
       {/* faqs section */}
       <div className='mt-10'>
         <div className='text-center py-12'>

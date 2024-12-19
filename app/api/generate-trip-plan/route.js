@@ -19,6 +19,17 @@ const generationConfig = {
 };
 
 export async function POST(request) {
+  const generateSlug = (tripName, uniqueId) => {
+    // Step 1: Remove special characters and emojis
+    const sanitized = tripName
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Keep only alphanumeric, spaces, and hyphens
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
+  
+    // Step 2: Append a unique identifier to ensure uniqueness
+    return `${sanitized}-${uniqueId}`;
+  };
   const session = await auth()
   if (session?.user?.balance === 0 && session.user?.freePlanUsed === 3) {
     return NextResponse.json({ message: "u don't have any credit", status: 500 },)
@@ -115,6 +126,8 @@ Strictly adhere to this structure.`
     const emergencyContacts = parsedAiResult.emergency_contacts
     const culturalEtiquette = parsedAiResult.cultural_etiquette
     const photographySpots = parsedAiResult.photography_spots
+    const uniqueId = Date.now().toString(); 
+    const slug = generateSlug(tripName,uniqueId )
     // console.log(timeToRead)
     const TripPlan = await prisma.TripPlan.create({
       data: {
@@ -132,6 +145,7 @@ Strictly adhere to this structure.`
         culturalEtiquette: culturalEtiquette,
         photographySpots: photographySpots,
         duration: String(tripDuration),
+        slug:slug
       }
     })
     let updatedUser

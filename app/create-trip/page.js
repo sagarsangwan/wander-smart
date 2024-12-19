@@ -66,7 +66,7 @@ function Page() {
             )
             if (result.ok) {
                 const res = await result.json()
-                return router.push(`/my-trips/${res.data.id}`)
+                return router.push(`/my-trips/${res.data.slug}`)
             } else {
                 console.log("error")
                 const res = await result.json()

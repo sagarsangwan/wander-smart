@@ -1,47 +1,15 @@
-import { auth } from '@/lib/auth'
-import prisma from '@/lib/prisma'
-import { Badge } from "@/components/ui/badge"
-
-
 import React from 'react'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 
-
+import { Badge } from "@/components/ui/badge"
+import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { MapPin, Calendar, DollarSign, Clock } from 'lucide-react'
-import { redirect } from 'next/navigation'
-
-
-
-export default async function page() {
-    const session = await auth()
-    let tripsData
-    if (session) {
-        tripsData = await prisma.TripPlan.findMany({
-            where: {
-                userId: session.user.id
-            }
-        })
-    }
-    if (!session) {
-        return redirect('/login')
-    }
-    return (
-        <div className="container mx-auto p-4 min-h-screen">
-            <h1 className="text-3xl font-bold mb-6">Explore Trip Plans</h1>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {tripsData.length === 0 && (
-                    <div>
-                        <Button>
-
-                            <Link href="/create-trip">Start Planning  </Link>
-                        </Button>
-                    </div>
-                )}
-                {tripsData.length > 1 && tripsData.map((trip) => (
-                    <Card key={trip.id} className="flex flex-col">
+import Link from 'next/link'
+function TripOverView({trip}) {
+  return (
+    
+                    <Card  className="flex flex-col">
                         <CardHeader>
                             <CardTitle>{trip.tripName}</CardTitle>
                             <CardDescription className="flex items-center">
@@ -78,14 +46,14 @@ export default async function page() {
                         </CardContent>
                         <CardFooter>
                             <Button className="w-full">
-                                <Link href={`/my-trips/${trip.id}`}>View Full Itinerary</Link>
+                                <Link href={`/my-trips/${trip.slug}`}>View Full Itinerary</Link>
                             </Button>
                         </CardFooter>
                     </Card>
-                ))}
-            </div>
-        </div>
-    )
+                
+    
+  )
 }
 
-
+export default TripOverView
+ 

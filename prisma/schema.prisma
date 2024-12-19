@@ -84,6 +84,7 @@ model TripPlan {
   createdAt              DateTime @default(now())
   userId                 String   @map("user_id")
   user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug                   String   @unique
 
   @@map("TripPlan")
 }
