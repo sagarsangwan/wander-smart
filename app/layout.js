@@ -4,6 +4,7 @@ import Providers from "@/components/providers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Script from "next/script";
+import Head from "next/head";
 
 export const metadata = {
   metadataBase:new URL("https://wander-smart.vercel.app/"),
@@ -22,6 +23,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+      <meta name="google-site-verification" content="dPX5pFBWC0uIN7UcstmKdDk34jv1N_FEXjqLCNI1Dh8" />
+      </Head>
     <Script async src="https://www.googletagmanager.com/gtag/js?id=G-2P2ZCQVMBJ"/>
     <Script id="google-analytics" strategy="afterInteractive">
       {`window.dataLayer = window.dataLayer || [];

@@ -13,7 +13,7 @@ function TripDetails({ tripData }) {
         <div className="container mx-auto p-4 space-y-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-3xl font-bold">{tripData.tripName}</CardTitle>
+                    <CardTitle className="text-3xl font-bold"> <h1>{tripData.tripName}</h1> </CardTitle>
                     <CardDescription className="text-lg">{tripData.tripDescription}</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -132,7 +132,8 @@ function TripDetails({ tripData }) {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Daily Itinerary</CardTitle>
+                    <CardTitle><h1>
+                    Daily Itinerary</h1> </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Accordion type="single" collapsible className="w-full">
