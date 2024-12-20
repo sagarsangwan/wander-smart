@@ -22,7 +22,7 @@ export function WanderSmartLogo({
       {/* Dotted Path */}
       <path
         d="M22 46 Q32 38 42 46"
-        stroke="white"
+        stroke="#E11D48"
         strokeWidth="2"
         fill="none"
         strokeDasharray="4,4"

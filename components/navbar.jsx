@@ -15,7 +15,7 @@ export default async function Navbar() {
     <header className={`w-full bg-background px-4 py-3 md:px-6 `}>
       <div className=" mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
-          <WanderSmartLogo className="w-40 h-auto sm:w-30" />
+          <WanderSmartLogo className="w-40 h-auto sm:w-22" />
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <Link
@@ -39,13 +39,14 @@ export default async function Navbar() {
           >
             Pricing
           </Link>
+          <ModeToggle />
           {!session && <SignIn />}
         </nav>
         <div className="flex items-center gap-4">
           {session?.user &&
             (session?.user?.balance === 0 && session?.user?.freePlanUsed < 3 ? (
               <Badge variant="outline">
-                {3 - session?.user?.freePlanUsed} free token left
+                {`${3 - session?.user?.freePlanUsed} token`}
               </Badge>
             ) : (
               <Badge variant="secondary">
@@ -53,8 +54,9 @@ export default async function Navbar() {
                 {session?.user?.balance} token left{" "}
               </Badge>
             ))}
-          <ModeToggle />
-          {session ? <UserAvatar /> : <SignIn />}
+
+          {session && <UserAvatar />}
+          {/* {session ? <UserAvatar /> : <SignIn />} */}
 
           <Sheet>
             <SheetTrigger asChild>

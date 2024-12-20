@@ -53,7 +53,7 @@ export default async function Home() {
       <HeroSection />
       {/* feature section */}
       {!session && (
-        <div>
+        <div mb-5>
           <div className="text-center py-12">
             <p className="text-3xl md:text-4xl lg:text-5xl font-bold">
               Why Choose WanderSmart?
@@ -101,7 +101,7 @@ export default async function Home() {
       )}
 
       {/* all trip plansss */}
-      <section className="px-4">
+      <section className="px-4 mt-10">
         <h1 className="text-xl font-semibold md:text-3xl mb-6">
           Explore Trip Plan From Other
         </h1>

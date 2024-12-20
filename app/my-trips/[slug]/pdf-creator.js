@@ -10,10 +10,10 @@ export async function generateStyledPDF(tripData) {
     // Add a page to the document
     const page = pdfDoc.addPage([600, 800]);
     const {  height } = page.getSize();
-    const sanitizeText = (text) => text.replace(/₹/g, '').trim();
+    const sanitizeText = (text) => text.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
     // Set up fonts
-    const font = await pdfDoc.embedFont(StandardFonts.Courier);
-    const boldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
+    const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const boldFont = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
 
     let y = height - 50;
 
@@ -24,7 +24,7 @@ export async function generateStyledPDF(tripData) {
     };
 
     // Draw Trip Name
-    drawText(tripData.tripName, 50, y, { size: 18 });
+    drawText(tripData.tripName, 50, y, {  size: 18, color:rgb(225 / 255, 29 / 255, 72 / 255) });
     y -= 20;
 
     // Draw Trip Description
@@ -46,21 +46,22 @@ export async function generateStyledPDF(tripData) {
         drawText(`Description: ${hotel.description}`, 50, y - 45, { font, size: 10 });
         y -= 60;
     });
+    y -= 30;
 
     // Draw Daily Itinerary
-    // drawText("Daily Itinerary", 50, y, { size: 16 });
-    // y -= 20;
-    // tripData.daily_wise_itinerary_plan.forEach((day) => {
-    //     drawText(`Day ${day.day} - ${day.best_time_to_visit}`, 50, y, { size: 14 });
-    //     y -= 20;
+    drawText("Daily Itinerary", 50, y, { size: 16 });
+    y -= 20;
+    tripData.itineraryPlan.forEach((day) => {
+        drawText(`Day ${day.day} - ${day.best_time_to_visit}`, 50, y, { size: 14 });
+        y -= 20;
 
-    //     day.places.forEach((place) => {
-    //         drawText(`Place: ${place["Place name"]}`, 60, y, { size: 12 });
-    //         drawText(`Ticket: ${place["ticket pricing"]} | Rating: ${place.rating}`, 60, y - 15, { size: 10 });
-    //         drawText(`Travel Time: ${place["time travel"]}`, 60, y - 30, { size: 10 });
-    //         y -= 50;
-    //     });
-    // });
+        day.places.forEach((place) => {
+            drawText(`Place: ${place["Place name"]}`, 60, y, { size: 12 });
+            drawText(`Ticket: ${place["ticket pricing"]} | Rating: ${place.rating}`, 60, y - 15, { size: 10 });
+            drawText(`Travel Time: ${place["time travel"]}`, 60, y - 30, { size: 10 });
+            y -= 50;
+        });
+    });
 
     // Save the PDF
     const pdfBytes = await pdfDoc.save();
@@ -69,6 +70,6 @@ export async function generateStyledPDF(tripData) {
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "travel_plan.pdf";
+    link.download = `${tripData.tripName}.pdf`;
     link.click();
 }

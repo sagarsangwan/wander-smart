@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +14,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MapPin, Calendar, DollarSign, Clock } from "lucide-react";
 import Link from "next/link";
-async function TripPlanOverView({tripPlans}) {
+import { generateStyledPDF } from "@/app/my-trips/[slug]/pdf-creator";
+function TripPlanOverView({ tripPlans }) {
   return (
     <div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -64,10 +66,11 @@ async function TripPlanOverView({tripPlans}) {
                 </ScrollArea>
               </div>
             </CardContent>
-            <CardFooter>
-              <Button className="w-full">
+            <CardFooter className="gap-1">
+              <Button className="">
                 <Link href={`/my-trips/${trip.slug}`}>View Full Itinerary</Link>
               </Button>
+              <Button onClick={() => generateStyledPDF(trip)}>PDF </Button>
             </CardFooter>
           </Card>
         ))}
