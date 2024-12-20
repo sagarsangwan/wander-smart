@@ -53,7 +53,7 @@ export default async function Home() {
       <HeroSection />
       {/* feature section */}
       {!session && (
-        <div mb-5>
+        <div className="mb-5">
           <div className="text-center py-12">
             <p className="text-3xl md:text-4xl lg:text-5xl font-bold">
               Why Choose WanderSmart?

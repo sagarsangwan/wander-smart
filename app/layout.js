@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Script from "next/script";
 import NextTopLoader from 'nextjs-toploader';
-
+import { Toaster } from "sonner";
 export const metadata = {
   metadataBase:new URL("https://wander-smart.vercel.app/"),
   alternates: {
@@ -59,6 +59,8 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main className=" container">
             {children}
+            <Toaster richColors position="top-right" />
+
           </main>
           <Footer />
         </Providers>

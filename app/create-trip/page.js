@@ -12,12 +12,17 @@ import { StepOne, StepTwo } from "@/components/trip/trip-input-steps"
 import { useSession } from "next-auth/react"
 import { redirect, useRouter } from "next/navigation"
 import PlanExpired from "@/components/trip/planExpired"
-import toast from "react-hot-toast"
+import { toast } from "sonner"
 
 const stepSchemas = [
     z.object({
         destination: z.string().min(1, "Destination is required"),
-        tripDuration: z.string().min(1, "select atleast one option")
+        tripDuration: z
+  .string()
+  .transform((value) => parseInt(value, 10))
+  .refine((value) => value >= 1, {
+    message: "Trip duration must be at least 1 day.",
+  }),
     }),
     z.object({
         groupSize: z.string().min(1, "Group size must be at least 1"),
@@ -63,17 +68,21 @@ function Page() {
                     body: JSON.stringify(data)
                 }
             )
-            if (result.ok) {
+            const res = await result.json()
+            if (res.status===500) {
+                console.log("error")
+                
+                toast.error(res.message)
+                
+                setLoading(false)
+                return router.push(`/pricing`)
+            } else {
                 const res = await result.json()
                 return router.push(`/my-trips/${res.data.slug}`)
-            } else {
-                console.log("error")
-                const res = await result.json()
-                toast(res.message)
-
             }
         } catch (error) {
             console.log(error)
+
         } finally {
             setLoading(false)
         }
@@ -88,11 +97,13 @@ function Page() {
     const [query, setQuery] = useState("")
     const [suggestions, setSuggestions] = useState([])
     const [apiError, setApiError] = useState("")
+    const [isLoadingSuggestions, setIsLoadingSuggestions]= useState(false)
     const debounceTimeout = useRef(null);
 
     const fetchSuggestions = async (input) => {
 
         if (input.length > 2) {
+            setIsLoadingSuggestions(true)
             try {
                 const response = await fetch("/api/location",
                     {
@@ -103,10 +114,12 @@ function Page() {
                 const data = await response.json()
                 if (response.ok) {
                     setApiError("")
+                    setIsLoadingSuggestions(false)
                     setSuggestions(data)
                 }
                 else {
                     setApiError(data.error)
+                    setIsLoadingSuggestions(false)
                     setSuggestions([])
                 }
             }
@@ -145,16 +158,15 @@ function Page() {
         <>
 
             {(session.user?.balance === 0 && session.user?.freePlanUsed === 3) ?
-                <PlanExpired />
-                :
-
+                
+                
                 (<div className=" h-screen">
 
                     <FormProvider {...methods}>
                         <div className=" max-w-md mx-auto p-4 ">
                             <Progress className="my-4" value={((step + 1) / totalSteps * 100)} />
                             <form onSubmit={methods.handleSubmit(onSubmit)} className="my-10" >
-                                {step === 0 && <StepOne suggestions={suggestions} apiError={apiError} query={query} handleInputChange={handleInputChange} handleSuggestionClick={handleSuggestionClick} />}
+                                {step === 0 && <StepOne isLoadingSuggestions={isLoadingSuggestions} suggestions={suggestions} apiError={apiError} query={query} handleInputChange={handleInputChange} handleSuggestionClick={handleSuggestionClick} />}
                                 {step === 1 && <StepTwo />}
                                 {/* {step === 2 && <StepThree />} */}
                                 <div className="flex justify-between mt-6">
@@ -169,7 +181,7 @@ function Page() {
                         </div>
                     </FormProvider>
 
-                </div>)
+                </div>):<PlanExpired />
 
 
             }
