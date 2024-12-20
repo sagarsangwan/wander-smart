@@ -39,6 +39,7 @@ export default async function Navbar() {
           >
             Pricing
           </Link>
+          {!session && <SignIn />}
         </nav>
         <div className="flex items-center gap-4">
           {session?.user &&
@@ -52,7 +53,8 @@ export default async function Navbar() {
                 {session?.user?.balance} token left{" "}
               </Badge>
             ))}
-          {session && <UserAvatar />}
+          <ModeToggle />
+          {session ? <UserAvatar /> : <SignIn />}
 
           <Sheet>
             <SheetTrigger asChild>
@@ -85,7 +87,7 @@ export default async function Navbar() {
                   Pricing
                 </Link>
                 <ModeToggle />
-                {!session ? <SignIn /> : <UserAvatar />}
+                {session ? <UserAvatar /> : <SignIn />}
               </div>
             </SheetContent>
           </Sheet>

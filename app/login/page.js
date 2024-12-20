@@ -13,7 +13,7 @@ export default async function LoginScreen() {
             <div className="max-w-md w-full space-y-8 md:p-10 m-auto  rounded-xl shadow-md">
                 <div className="flex flex-col items-center justify-center">
                     <WanderSmartLogo width='70%'/>
-                    <h2 className="mt-6 text-xl md:text-2xl font-extrabold ">Sign in to your account
+                    <h2 className="mt-6 text-xl md:text-2xl font-semibold ">Sign in to your account
                     </h2>
 
                 </div>
