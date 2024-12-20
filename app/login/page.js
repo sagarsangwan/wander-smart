@@ -9,11 +9,11 @@ export default async function LoginScreen() {
         return redirect("/")
     }
     return (
-        <div className="min-h-screen flex items-center justify-center">
-            <div className="max-w-md w-full space-y-8 p-10 m-auto  rounded-xl shadow-md">
-                <div className="text-center">
-                    <WanderSmartLogo />
-                    <h2 className="mt-6 text-xl md:text-3xl font-extrabold ">Sign in to your account
+        <div className="min-h-screen flex ">
+            <div className="max-w-md w-full space-y-8 md:p-10 m-auto  rounded-xl shadow-md">
+                <div className="flex flex-col items-center justify-center">
+                    <WanderSmartLogo width='70%'/>
+                    <h2 className="mt-6 text-xl md:text-2xl font-extrabold ">Sign in to your account
                     </h2>
 
                 </div>
@@ -24,12 +24,12 @@ export default async function LoginScreen() {
                                 <div className="absolute inset-0 flex items-center">
                                     <div className="w-full border-t border-gray-300" />
                                 </div>
-                                <div className="relative flex justify-center text-sm">
+                                <div className="relative flex justify-center items-center text-sm">
                                     <span className="px-2 bg-white text-gray-500">Sign in with</span>
                                 </div>
                             </div>
 
-                            <div className="mt-6">
+                            <div className="mt-6 flex justify-center items-center ">
                                 <SignIn />
 
 
