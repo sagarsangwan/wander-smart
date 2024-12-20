@@ -69,22 +69,19 @@ function Page() {
             )
             const res = await result.json()
             if (res.status===500) {
-                console.log("error")
-                
                 toast.error(res.message)
-                
                 setLoading(false)
                 return router.push(`/pricing`)
-            } else {
-                const res = await result.json()
+            } 
+            if(res.status===200) {
+                
+                toast.message(res.message)
                 return router.push(`/my-trips/${res.data.slug}`)
             }
         } catch (error) {
             console.log(error)
 
-        } finally {
-            setLoading(false)
-        }
+        } 
 
     }
     const handleBack = () => {

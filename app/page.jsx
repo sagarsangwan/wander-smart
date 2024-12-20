@@ -101,12 +101,14 @@ export default async function Home() {
       )}
 
       {/* all trip plansss */}
-      <section className="px-4 mt-10">
-        <h1 className="text-xl font-semibold md:text-3xl mb-6">
-          Explore Trip Plan From Other
-        </h1>
-        <TripPlanOnHomePage tripPlans={tripPlans} />
-      </section>
+      {tripPlans.length > 0 && (
+        <section className="px-4 mt-10">
+          <h1 className="text-xl font-semibold md:text-3xl mb-6">
+            Explore Trip Plan From Other
+          </h1>
+          <TripPlanOnHomePage tripPlans={tripPlans} />
+        </section>
+      )}
 
       {/* faqs section */}
       <div className="mt-10">
