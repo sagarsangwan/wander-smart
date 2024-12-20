@@ -4,6 +4,7 @@ import Providers from "@/components/providers";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Script from "next/script";
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata = {
   metadataBase:new URL("https://wander-smart.vercel.app/"),
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
           `}
           </Script>)}
         <Providers>
+        <NextTopLoader />
           <Navbar />
           <main className=" container">
             {children}
