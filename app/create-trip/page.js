@@ -34,9 +34,6 @@ const fullSchemas = stepSchemas.reduce((acc, schema) => acc.merge(schema), z.obj
 
 function Page() {
     const { data: session } = useSession()
-    console.log(session)
-    console.log("Balance:", session.user?.balance);
-    console.log("Free Plan Used:", session.user?.freePlanUsed);
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(0)
@@ -159,7 +156,7 @@ function Page() {
     return (
         <>
 
-            {(session.user?.balance === 0 && session.user?.freePlanUsed >= 3) ?
+            {(session?.user?.balance === 0 && session?.user?.freePlanUsed >= 3) ?
                 (<PlanExpired />)
                 :
 
