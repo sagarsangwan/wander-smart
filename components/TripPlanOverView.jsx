@@ -45,7 +45,7 @@ function TripPlanOverView({ tripPlans }) {
                   {trip.duration} days
                 </Badge>
                 <Badge variant="outline" className="flex items-center">
-                  <DollarSign className="mr-1 h-4 w-4" />
+                  {/* <DollarSign className="mr-1 h-4 w-4" /> */}
                   {trip.averageBudgetPerPerson}/day
                 </Badge>
                 <Badge variant="outline" className="flex items-center">

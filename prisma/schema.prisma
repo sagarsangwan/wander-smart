@@ -7,11 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  admin
+  NormanUser
+}
+
 model User {
   id                String     @id @default(cuid())
   name              String?
   email             String     @unique
   emailVerified     DateTime?
+  role              Role       @default(NormanUser)
   image             String?
   accounts          Account[]
   sessions          Session[]
@@ -23,6 +29,7 @@ model User {
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
   Receipt           Receipt[]
+  feedback          Feedback[]
 }
 
 model Account {
@@ -78,13 +85,13 @@ model TripPlan {
   emergencyContacts      Json
   culturalEtiquette      String
   photographySpots       Json
-  // transportationOptions Json
   hotelDetails           Json // This will store your hotel details JSON
   itineraryPlan          Json // This will store your itinerary plan JSON
   createdAt              DateTime @default(now())
   userId                 String   @map("user_id")
   user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   slug                   String   @unique
+  isDeleted              Boolean  @default(false)
 
   @@map("TripPlan")
 }
@@ -110,4 +117,28 @@ model Receipt {
   transactionTime DateTime
   createdAt       DateTime @default(now())
   user            User     @relation(references: [id], fields: [userId])
+}
+
+model Feedback {
+  id        String         @id @default(cuid())
+  userId    String?
+  message   String
+  type      FeedbackType   @default(GENERAL)
+  status    FeedbackStatus @default(OPEN)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+enum FeedbackType {
+  GENERAL
+  BUG
+  FEATURE_REQUEST
+}
+
+enum FeedbackStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
 }

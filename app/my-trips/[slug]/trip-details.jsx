@@ -40,7 +40,7 @@ function TripDetails({ tripData }) {
               {tripData.timeToRead} min read
             </div>
             <div className="flex items-center">
-              <DollarSign className="mr-2 h-4 w-4" />
+              {/* <DollarSign className="mr-2 h-4 w-4" /> */}
               Avg. {tripData.averageBudgetPerPerson} per person
               <Button
                 className="ms-3 "

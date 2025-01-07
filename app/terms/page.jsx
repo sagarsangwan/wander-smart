@@ -120,10 +120,9 @@ export default function TermsPage() {
               If you have any questions about these Terms, please contact us at:
             </p>
             <p className="mt-2">
-              <strong>Email:</strong> legal@wandersmart.com
+              <strong>Email:</strong> iamsagarsangwan@gmail.com
               <br />
-              <strong>Address:</strong> 123 Travel Lane, Adventure City, AC
-              12345
+              <strong>Address:</strong> nhi hai bhai address
             </p>
           </section>
         </div>

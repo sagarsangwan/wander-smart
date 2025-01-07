@@ -1,17 +1,12 @@
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen ">
-      {/* Privacy Policy Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">
-          Privacy Policy
-        </h1>
+        <h1 className="text-4xl font-bold  mb-8">Privacy Policy</h1>
 
-        <div className="space-y-8 text-gray-700">
+        <div className="space-y-8 ">
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              1. Introduction
-            </h2>
+            <h2 className="text-2xl font-semibold  mb-4">1. Introduction</h2>
             <p>
               At WanderSmart, we take your privacy seriously. This Privacy
               Policy explains how we collect, use, disclose, and safeguard your
@@ -20,7 +15,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            <h2 className="text-2xl font-semibold  mb-4">
               2. Information We Collect
             </h2>
             <p>
@@ -38,7 +33,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            <h2 className="text-2xl font-semibold  mb-4">
               3. How We Use Your Information
             </h2>
             <p>We use the information we collect to:</p>
@@ -55,9 +50,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              4. Data Security
-            </h2>
+            <h2 className="text-2xl font-semibold  mb-4">4. Data Security</h2>
             <p>
               We implement appropriate technical and organizational measures to
               protect your personal information against unauthorized or unlawful
@@ -66,7 +59,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            <h2 className="text-2xl font-semibold  mb-4">
               5. Third-Party Services
             </h2>
             <p>
@@ -78,9 +71,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              6. Your Rights
-            </h2>
+            <h2 className="text-2xl font-semibold  mb-4">6. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc pl-6 mt-2">
               <li>Access and receive a copy of your personal data</li>
@@ -94,7 +85,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            <h2 className="text-2xl font-semibold  mb-4">
               7. Changes to This Privacy Policy
             </h2>
             <p>
@@ -105,18 +96,15 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              8. Contact Us
-            </h2>
+            <h2 className="text-2xl font-semibold  mb-4">8. Contact Us</h2>
             <p>
               If you have any questions about this Privacy Policy, please
               contact us at:
             </p>
             <p className="mt-2">
-              <strong>Email:</strong> privacy@wandersmart.com
+              <strong>Email:</strong> iamsagarsangwan@gmail.com
               <br />
-              <strong>Address:</strong> 123 Travel Lane, Adventure City, AC
-              12345
+              <strong>Address:</strong>bhaii address to nhi hai
             </p>
           </section>
         </div>

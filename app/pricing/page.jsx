@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { WanderSmartLogo } from "@/components/ui/logo";
 import useTokenCalculator from "@/hooks/useTokenCalculator";
+import { toast } from "sonner";
 function Page() {
   const { tokens, handleIncrement, handleDecrement, total } =
     useTokenCalculator();
@@ -54,7 +55,16 @@ function Page() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Button className="w-full">Purchase Tokens</Button>
+            <Button
+              onClick={() => {
+                toast(
+                  "bhai koi bhi payment gateway free nhi hai to nhi lgaya, i will do it soon"
+                );
+              }}
+              className="w-full"
+            >
+              Purchase Tokens
+            </Button>
           </CardFooter>
         </Card>
       </div>

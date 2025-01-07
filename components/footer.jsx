@@ -20,7 +20,7 @@ function Footer() {
             </Link>
           </li>
           <li>
-            <Link href={"/contace-us"} className="text-red-500">
+            <Link href={"/contact-us"} className="text-red-500">
               Contact Us
             </Link>
           </li>
