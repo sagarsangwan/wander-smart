@@ -16,7 +16,9 @@ import { MapPin, Calendar, DollarSign, Clock } from "lucide-react";
 import Link from "next/link";
 import { generateStyledPDF } from "@/app/my-trips/[slug]/pdf-creator";
 import TripPlanOptions from "./TripPlanOptions";
+import { useSession } from "next-auth/react";
 function TripPlanOverView({ tripPlans }) {
+  const { data: session } = useSession();
   return (
     <div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -38,9 +40,11 @@ function TripPlanOverView({ tripPlans }) {
                     {trip.destination}
                   </CardDescription>
                 </div>
-                <div>
-                  <TripPlanOptions />
-                </div>
+                {session?.user?.id === trip.userId && (
+                  <div>
+                    <TripPlanOptions tripId={trip.id} />
+                  </div>
+                )}
               </div>
             </CardHeader>
             <CardContent className="flex-grow">

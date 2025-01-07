@@ -21,7 +21,9 @@ import { Clock, DollarSign, Utensils, Phone, Camera } from "lucide-react";
 import { generateStyledPDF } from "./pdf-creator";
 import { Button } from "@/components/ui/button";
 import TripPlanOptions from "@/components/TripPlanOptions";
+import { useSession } from "next-auth/react";
 function TripDetails({ tripData }) {
+  const { data: session } = useSession();
   return (
     <div className="container mx-auto p-4 space-y-8">
       <Card>
@@ -36,9 +38,11 @@ function TripDetails({ tripData }) {
                 {tripData.tripDescription}
               </CardDescription>
             </div>
-            <div>
-              <TripPlanOptions />
-            </div>
+            {session?.user?.id === tripData.userId && (
+              <div>
+                <TripPlanOptions tripId={tripData.id} />
+              </div>
+            )}
           </div>
         </CardHeader>
         <CardContent>
