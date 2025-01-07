@@ -121,6 +121,8 @@ model Receipt {
 
 model Feedback {
   id        String         @id @default(cuid())
+  name      String?
+  email     String?
   userId    String?
   message   String
   type      FeedbackType   @default(GENERAL)
