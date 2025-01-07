@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { MapPin, Calendar, DollarSign, Clock } from "lucide-react";
 import Link from "next/link";
 import { generateStyledPDF } from "@/app/my-trips/[slug]/pdf-creator";
+import TripPlanOptions from "./TripPlanOptions";
 function TripPlanOverView({ tripPlans }) {
   return (
     <div>
@@ -29,11 +30,18 @@ function TripPlanOverView({ tripPlans }) {
         {tripPlans.map((trip) => (
           <Card key={trip.id} className="flex flex-col">
             <CardHeader>
-              <CardTitle>{trip.tripName}</CardTitle>
-              <CardDescription className="flex items-center">
-                <MapPin className="mr-1 h-4 w-4" />
-                {trip.destination}
-              </CardDescription>
+              <div className="flex justify-between">
+                <div>
+                  <CardTitle>{trip.tripName}</CardTitle>
+                  <CardDescription className="flex items-center">
+                    <MapPin className="mr-1 h-4 w-4" />
+                    {trip.destination}
+                  </CardDescription>
+                </div>
+                <div>
+                  <TripPlanOptions />
+                </div>
+              </div>
             </CardHeader>
             <CardContent className="flex-grow">
               <p className="text-sm text-muted-foreground mb-4">

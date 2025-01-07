@@ -14,7 +14,9 @@ import prisma from "@/lib/prisma";
 
 export default async function Home() {
   const session = await auth();
-  const tripPlans = await prisma.TripPlan.findMany();
+  const tripPlans = await prisma.TripPlan.findMany({
+    where: { isDeleted: false },
+  });
   const faqs = [
     {
       question: "What is Wander Smart?",

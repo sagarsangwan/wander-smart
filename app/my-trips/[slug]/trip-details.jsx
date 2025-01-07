@@ -20,18 +20,26 @@ import { Clock, DollarSign, Utensils, Phone, Camera } from "lucide-react";
 
 import { generateStyledPDF } from "./pdf-creator";
 import { Button } from "@/components/ui/button";
+import TripPlanOptions from "@/components/TripPlanOptions";
 function TripDetails({ tripData }) {
   return (
     <div className="container mx-auto p-4 space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl font-bold">
-            {" "}
-            <h1>{tripData.tripName}</h1>{" "}
-          </CardTitle>
-          <CardDescription className="text-lg">
-            {tripData.tripDescription}
-          </CardDescription>
+          <div className="flex justify-between">
+            <div>
+              <CardTitle className="text-3xl font-bold">
+                {" "}
+                <h1>{tripData.tripName}</h1>
+              </CardTitle>
+              <CardDescription className="text-lg">
+                {tripData.tripDescription}
+              </CardDescription>
+            </div>
+            <div>
+              <TripPlanOptions />
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">

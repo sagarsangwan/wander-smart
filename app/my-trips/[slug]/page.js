@@ -7,6 +7,7 @@ export async function generateMetadata({ params }) {
   const tripData = await prisma.TripPlan.findUnique({
     where: {
       slug: currentSlug,
+      isDeleted: false,
     },
   });
   if (!tripData) {
