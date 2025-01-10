@@ -76,7 +76,21 @@ function Page() {
       }
       if (res.status === 200) {
         toast.message(res.message);
-        return router.push(`/my-trips/${res.data.slug}`);
+        console.log(res.data);
+        const updateToDb = await fetch("/api/create-trip-plan", {
+          method: "POST",
+          body: JSON.stringify(res.data),
+        });
+        const updateToDbResult = await updateToDb.json();
+        if (res.status === 500) {
+          toast.error(res.message);
+          setLoading(false);
+        }
+        if (res.status === 200) {
+          toast.success(updateToDbResult.message);
+          setLoading(false);
+          return router.push(`/my-trips/${res.data.slug}`);
+        }
       }
     } catch (error) {
       console.log(error);

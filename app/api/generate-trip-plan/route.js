@@ -1,42 +1,38 @@
 import { auth } from "@/lib/auth";
-import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-const {
-  GoogleGenerativeAI,
-} = require("@google/generative-ai");
-
-
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const generationConfig = {
   temperature: 1,
   topP: 0.95,
   topK: 40,
-  maxOutputTokens: 8192,
+  maxOutputTokens: 2048,
   responseMimeType: "application/json",
 };
 
 export async function POST(request) {
   const generateSlug = (tripName, uniqueId) => {
-    // Step 1: Remove special characters and emojis
     const sanitized = tripName
       .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '') // Keep only alphanumeric, spaces, and hyphens
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/-+/g, '-'); // Replace multiple hyphens with a single hyphen
-  
-    // Step 2: Append a unique identifier to ensure uniqueness
+      .replace(/[^a-z0-9\s-]/g, "") // Keep only alphanumeric, spaces, and hyphens
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-"); // Replace multiple hyphens with a single hyphen
+
     return `${sanitized}-${uniqueId}`;
   };
-  const session = await auth()
+  const session = await auth();
   if (session?.user?.balance === 0 && session.user?.freePlanUsed === 3) {
-    return NextResponse.json({ message: "u don't have any credit", status: 500 },)
+    return NextResponse.json({
+      message: "u don't have any credit",
+      status: 500,
+    });
   }
   try {
-    const data = await request.json()
-    const destination = data["destination"]
-    const tripDuration = data["tripDuration"]
-    const groupSize = data["groupSize"]
-    const budget = data["budget"]
+    const data = await request.json();
+    const destination = data["destination"];
+    const tripDuration = data["tripDuration"];
+    const groupSize = data["groupSize"];
+    const budget = data["budget"];
     const travelPrompt = `Generate a travel plan for ${destination} with a ${budget} budget for ${tripDuration} days for a group size of ${groupSize}.
 The response must be in **valid JSON format** and follow this structure exactly:
 
@@ -87,15 +83,7 @@ The response must:
 - Include all fields, even if some fields are empty.
 - include nearby maximum hotels availabe in the ${budget} budget.
 - Contain no additional explanations or text outside the JSON format.
-Strictly adhere to this structure.`
-    // "transportation_options ": [
-    //   {
-    //     "mode": "Bus/Taxi/Rental Car/Train",
-    //     "cost": "string",
-    //     "duration": "string"
-    //   }
-    // ],
-    //   "weather_forecast": "Expected weather for 3 days from now (e.g., 'Sunny, 25°C')",
+Strictly adhere to this structure.`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     const genAI = new GoogleGenerativeAI(apiKey);
@@ -105,80 +93,39 @@ Strictly adhere to this structure.`
     });
     const chatSession = model.startChat({
       generationConfig,
-      history: [
-      ],
+      history: [],
     });
 
     const response = await chatSession.sendMessage(travelPrompt);
-    const aiResult = response.response.text()
-    const parsedAiResult = JSON.parse(aiResult)
-    const tripName = parsedAiResult.trip_name
-    const hotelDetails = parsedAiResult.hotel_details
-    const itineraryPlan = parsedAiResult.daily_wise_itinerary_plan
-    const tripDescription = parsedAiResult.trip_description
-    const timeToRead = parsedAiResult.time_to_read
-    const averageBudgetPerPerson = parsedAiResult.average_budget_per_person
-    const travelTips = parsedAiResult.travel_tips
-    // const constweatherForcast =parsedAiResult
-    const localCuisines = parsedAiResult.local_cuisines
-    const emergencyContacts = parsedAiResult.emergency_contacts
-    const culturalEtiquette = parsedAiResult.cultural_etiquette
-    const photographySpots = parsedAiResult.photography_spots
-    const uniqueId = Date.now().toString(); 
-    const slug = generateSlug(tripName,uniqueId )
-    // console.log(timeToRead)
-    const TripPlan = await prisma.TripPlan.create({
-      data: {
-        tripName: tripName,
-        destination: destination,
-        hotelDetails: hotelDetails,
-        itineraryPlan: itineraryPlan,
-        tripDescription: tripDescription,
-        timeToRead: timeToRead,
-        userId: session.user.id,
-        averageBudgetPerPerson: averageBudgetPerPerson,
-        travelTips: travelTips,
-        localCuisines: localCuisines,
-        emergencyContacts: emergencyContacts,
-        culturalEtiquette: culturalEtiquette,
-        photographySpots: photographySpots,
-        duration: String(tripDuration),
-        slug:slug
-      }
-    })
-    let updatedUser
-    if (session?.user?.balance > 1) {
-      console.log("balance haiiiiiiiiiiiiii")
-      const totalBalanceUsed = session.user?.totalBalanceUsed + 1
-      const balance = session.user?.balance - 1
-      const balanceUsed = session.user?.balanceUsed + 1
-      updatedUser = await prisma.user.update({
-        where: { id: session?.user?.id },
-        data: {
-          balanceUsed: balanceUsed,
-          balance: balance,
-          totalBalanceUsed: totalBalanceUsed
-        }
-      })
-    }
-    if (session?.user?.balance === 0 && session.user?.freePlanUsed < 3) {
-      console.log("balance nhiiiiii haiiiiiiiiiiiiii free quota haiiiiiiiiiiiiiiiii")
+    const aiResult = response.response.text();
+    const parsedAiResult = JSON.parse(aiResult);
+    const tripPlanFromGemen = {
+      tripName: parsedAiResult.trip_name,
+      destination: destination,
+      duration: String(tripDuration),
+      hotelDetails: parsedAiResult.hotel_details,
+      itineraryPlan: parsedAiResult.daily_wise_itinerary_plan,
+      tripDescription: parsedAiResult.trip_description,
+      timeToRead: parsedAiResult.time_to_read,
+      averageBudgetPerPerson: parsedAiResult.average_budget_per_person,
+      travelTips: parsedAiResult.travel_tips,
+      localCuisines: parsedAiResult.local_cuisines,
+      emergencyContacts: parsedAiResult.emergency_contacts,
+      culturalEtiquette: parsedAiResult.cultural_etiquette,
+      photographySpots: parsedAiResult.photography_spots,
 
-      const freePlanUsed = session.user?.freePlanUsed + 1
-      const totalBalanceUsed = session.user?.totalBalanceUsed + 1
-      updatedUser = await prisma.user.update({
-        where: { id: session?.user?.id },
-        data: {
-          totalBalanceUsed: totalBalanceUsed,
-          freePlanUsed: freePlanUsed
-        }
-      })
-    }
+      userId: session.user.id,
+      slug: generateSlug(parsedAiResult.trip_name, Date.now().toString()),
+    };
 
-
-    return NextResponse.json({ message: "heheheh your itinerary is generated ", data: TripPlan, updatedUser: updatedUser, status: 200 })
+    return NextResponse.json({
+      message:
+        "heheheh your itinerary is generated from gemeni ai please wait while we updating your trip to database ",
+      data: tripPlanFromGemen,
+      status: 200,
+    });
   } catch (e) {
-    console.log(e)
-    return NextResponse.json({ message: e, status: 500 })
+    console.log(e);
+    return NextResponse.json({ message: e, status: 500 });
   }
 }

@@ -20,7 +20,7 @@ function TripPlanOptions({ tripId }) {
     console.log(tripId);
     try {
       setIsLoading(true);
-      const res = await fetch(`/api/generate-trip-plan/${tripId}`, {
+      const res = await fetch(`/api/create-trip-plan/${tripId}`, {
         method: "POST",
       });
       const result = await res.json();
