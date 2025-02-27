@@ -1,48 +1,52 @@
 "use client";
 import { useState, useRef } from "react";
 import { z } from "zod";
-import { Progress } from "@/components/ui/progress";
+import React from "react";
+
+import { Search, MapPin } from "lucide-react";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import { StepOne, StepTwo } from "@/components/trip/trip-input-steps";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import PlanExpired from "@/components/trip/planExpired";
 import { toast } from "sonner";
-import LoadingScreen from "@/components/LoadingScreen";
 
-const stepSchemas = [
-  z.object({
-    destination: z.string().min(1, "Destination is required"),
-    tripDuration: z
-      .string()
-      .transform((value) => parseInt(value, 10))
-      .refine((value) => value >= 1, {
-        message: "Trip duration must be at least 1 day.",
-      }),
-  }),
-  z.object({
-    groupSize: z.string().min(1, "Group size must be at least 1"),
-    // activities: z.string().min(1, "please select atleast one activity"),
-    budget: z.string().min(3, "please fill your budget in ruppes"),
-  }),
-];
-const fullSchemas = stepSchemas.reduce(
-  (acc, schema) => acc.merge(schema),
-  z.object({})
-);
+const formSchemas = z.object({
+  destination: z.string().min(1, "Destination is required"),
+  tripDuration: z
+    .string()
+    .transform((value) => parseInt(value, 10))
+    .refine((value) => value >= 1, {
+      message: "Trip duration must be at least 1 day.",
+    }),
+  groupSize: z.string().min(1, "Group size must be at least 1"),
+  budget: z.string().min(3, "please fill your budget in ruppes"),
+});
 
 function Page() {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(0);
-  const totalSteps = stepSchemas.length;
   const methods = useForm({
-    resolver: zodResolver(fullSchemas),
+    resolver: zodResolver(formSchemas),
     defaultValues: {
       destination: "",
       tripDuration: 1,
@@ -51,54 +55,50 @@ function Page() {
       budget: "",
     },
   });
-  const handleNext = () => {
-    const currentSchemas = stepSchemas[step];
-    const currentStepData = methods.getValues();
-    const currentvalidation = currentSchemas.safeParse(currentStepData);
-    if (currentvalidation.success) {
-      setStep(step + 1);
-    } else {
-      console.log("error");
-    }
-  };
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const result = await fetch("/api/generate-trip-plan", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      const res = await result.json();
-      if (res.status === 500) {
+      if (session?.user?.balance === 0 && session.user?.freePlanUsed === 3) {
         toast.error(res.message);
         setLoading(false);
         return router.push(`/pricing`);
       }
-      if (res.status === 200) {
-        toast.message(res.message);
-        console.log(res.data);
-        const updateToDb = await fetch("/api/create-trip-plan", {
+      const result = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_API_ENDPOINT}/wander-smart/api/generate-trip-plan/`,
+        {
           method: "POST",
-          body: JSON.stringify(res.data),
-        });
-        const updateToDbResult = await updateToDb.json();
-        if (res.status === 500) {
-          toast.error(res.message);
-          setLoading(false);
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-        if (res.status === 200) {
-          toast.success(updateToDbResult.message);
-          setLoading(false);
-          return router.push(`/my-trips/${res.data.slug}`);
-        }
+      );
+      const res = await result.json();
+      if (!result.ok) {
+        toast.error(res.message);
+        setLoading(false);
+        return router.refresh();
       }
+
+      toast.success(res.message);
+      const updateToDb = await fetch("/api/create-trip-plan", {
+        method: "POST",
+        body: JSON.stringify(res.data),
+      });
+      const updateToDbResult = await updateToDb.json();
+      if (!updateToDb.ok) {
+        toast.error(updateToDbResult.message);
+        setLoading(false);
+        return router.refresh();
+      }
+      toast.success(updateToDbResult.message);
+      setLoading(false);
+      return router.push(`/my-trips/${res.data.slug}`);
     } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleBack = () => {
-    if (step > 0) {
-      setStep(step - 1);
+      console.error("Error:", error);
+      toast.error("An unexpected error occurred");
+      setLoading(false);
     }
   };
 
@@ -127,7 +127,7 @@ function Page() {
           setSuggestions([]);
         }
       } catch (error) {
-        // console.error("Error fetching suggestions:", error);
+        setApiError(error);
         setSuggestions([]);
       }
     } else {
@@ -139,12 +139,18 @@ function Page() {
     const userInput = e.target.value;
     methods.setValue("destination", "");
     setQuery(userInput);
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
+    if (userInput.length > 2) {
+      // Add minimum input length check
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+      debounceTimeout.current = setTimeout(() => {
+        fetchSuggestions(userInput);
+      }, 300);
+    } else {
+      setSuggestions([]);
+      setApiError("search atleast three word");
     }
-    debounceTimeout.current = setTimeout(() => {
-      fetchSuggestions(userInput);
-    }, 300);
   };
   const handleSuggestionClick = (place) => {
     setQuery(place.display_name);
@@ -155,9 +161,6 @@ function Page() {
     return redirect("/login");
   }
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
   return (
     <>
       {session?.user?.balance === 0 && session?.user?.freePlanUsed >= 3 ? (
@@ -166,38 +169,134 @@ function Page() {
         <div className=" h-screen">
           <FormProvider {...methods}>
             <div className=" max-w-md mx-auto p-4 ">
-              <Progress
-                className="my-4"
-                value={((step + 1) / totalSteps) * 100}
-              />
               <form onSubmit={methods.handleSubmit(onSubmit)} className="my-10">
-                {step === 0 && (
-                  <StepOne
-                    isLoadingSuggestions={isLoadingSuggestions}
-                    suggestions={suggestions}
-                    apiError={apiError}
-                    query={query}
-                    handleInputChange={handleInputChange}
-                    handleSuggestionClick={handleSuggestionClick}
+                <div className="py-5 ">
+                  <FormField
+                    name="destination"
+                    render={({ field }) => (
+                      <FormItem className="relative mb-5">
+                        <FormLabel>
+                          Let start with your dream destination.
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <Search className="h-5 w-5 text-gray-400" />
+                            </div>
+                            <Input
+                              placeholder="Search your place"
+                              {...field}
+                              value={query}
+                              onChange={handleInputChange}
+                              // onKeyDown={handleKeyDown}
+                              className="pl-10 pr-4 py-2 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                          </div>
+                        </FormControl>
+                        {isLoadingSuggestions && (
+                          <p className="text-sm text-gray-500 mt-2">
+                            Loading suggestions...
+                          </p>
+                        )}
+                        {apiError.length > 0 && <span>{apiError}</span>}
+                        {suggestions.length > 0 && (
+                          <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+                            {suggestions.map((place) => (
+                              <li
+                                key={place.place_id}
+                                onClick={() => handleSuggestionClick(place)}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+                              >
+                                <MapPin className="h-4 w-4 mr-2 text-gray-500" />
+                                <span className="text-sm">
+                                  {place.display_name}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                )}
-                {step === 1 && <StepTwo />}
-                {/* {step === 2 && <StepThree />} */}
+                  <FormField
+                    name="tripDuration"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Share the number of days you want to travel
+                        </FormLabel>
+                        <FormControl>
+                          <div>
+                            <Input
+                              type="number"
+                              placeholder="Enter group size"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="groupSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Travelling with</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select number of traveller" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Couple">Couple </SelectItem>
+                            <SelectItem value="Single">Single</SelectItem>
+                            <SelectItem value="Family">Family</SelectItem>
+                            <SelectItem value="Friends">Friends</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="budget"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Trip Budget</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a Budget" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="cheap">Cheap </SelectItem>
+                            <SelectItem value="Moderate">Moderate</SelectItem>
+                            <SelectItem value="Luxury">Luxury</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className="flex justify-between mt-6">
                   {loading ? (
                     <Button>loading...</Button>
                   ) : (
-                    <>
-                      {" "}
-                      <Button onClick={handleBack} disabled={step === 0}>
-                        back
-                      </Button>
-                      {step < totalSteps - 1 ? (
-                        <Button onClick={handleNext}>next</Button>
-                      ) : (
-                        <Button type="submit">submit</Button>
-                      )}
-                    </>
+                    <Button type="submit">submit</Button>
                   )}
                 </div>
               </form>
