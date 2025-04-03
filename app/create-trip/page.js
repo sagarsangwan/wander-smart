@@ -294,7 +294,10 @@ function Page() {
                 </div>
                 <div className="flex justify-between mt-6">
                   {loading ? (
-                    <Button>loading...</Button>
+                    <Button>
+                      Generating... please wait Backend is hosted on free plan
+                      it may take extra 5 seconds
+                    </Button>
                   ) : (
                     <Button type="submit">submit</Button>
                   )}
